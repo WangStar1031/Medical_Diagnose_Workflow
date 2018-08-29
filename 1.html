@@ -1,0 +1,239 @@
+<style type="text/css">
+	.main{
+		margin: auto;
+		text-align: center;
+	}
+	h1{
+		color: #400099;
+	}
+	.Answers p input{
+		border: none;
+		border-bottom: 1px solid gray;
+		line-height: 30px;
+	}
+	.startBtn{
+		background-color: #26a6a6;
+		border-radius: 30px;
+		border: none;
+		color: white;
+		padding: 10px 15px;
+	}
+</style>
+
+<div class="main">
+	<div class="Statement">
+		<h1>Please check all the statements below that appy to you</h1>
+		<p>patient demographics and history:</p>
+		<input type = "checkbox" name = "p_28">Do you smoke or were you smoking for at least ten years in your life?<br/>
+		<input type = "checkbox" name = "p_10">Do you have a high level of cholesterol?<br/>
+		<input type = "checkbox" name = "p_9">Do you have hypertension?<br/>
+		<input type = "checkbox" name = "p_8">Do you have diabetes?<br/>
+	</div>
+	<div class="Geographical">
+		<h1>Please select the region you live in and places you've traveled to in the last 12 monthess.</h1>
+		<p>geographical location:</p>
+		<input type = "checkbox" name = "p_13">North America without Mexico<br/>
+		<input type = "checkbox" name = "p_14">Latin and South America<br/>
+		<input type = "checkbox" name = "p_15">Europe<br/>
+		<input type = "checkbox" name = "p_16">Northern Africa<br/>
+		<input type = "checkbox" name = "p_17">Central Africa<br/>
+		<input type = "checkbox" name = "p_18">Southern Africa<br/>
+		<input type = "checkbox" name = "p_19">Australia and Oceania<br/>
+		<input type = "checkbox" name = "p_20">Russia, Kazakhstan and Mongolia<br/>
+		<input type = "checkbox" name = "p_21">Middle East<br/>
+		<input type = "checkbox" name = "p_22">India, China and Southeastern Asia<br/>
+	</div>
+	<div class="queryContents">
+		<div class="Question">
+			
+		</div>
+		<div class="Answers">
+		</div>
+	</div>
+</div>
+
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+	var strUrl = 'https://api.infermedica.com/v2';	
+	var nDepth = 0;
+	var arrChkParams = [];
+	var arrSearch_Suggest = [];
+	var isSearch = false;
+	var isSuggest = false;
+	function getCheckParams(){
+		var arrCheckBoxes = $("input[type='checkbox']");
+		for(var i = 0; i < arrCheckBoxes.length; i++){
+			var objChk = arrCheckBoxes.eq(i);
+			var strName = objChk.attr("name");
+			var value = objChk.prop("checked");
+			arrChkParams.push({"id":strName, "choice_id":((value==true)?'present':'absent')});
+		}
+		console.log( arrChkParams);
+	}
+	function DrawSearches_Suggests(arrDrawings){
+		if( isSearch == false && isSuggest == false){
+			return;
+		}
+		if( isSuggest && isSearch){
+			isSearch = false;
+			isSuggest = false;
+			for( var i = 0; i < arrDrawings.length; i++){
+				var drawing = arrDrawings[i];
+				var isContains = false;
+				for( var j = 0; j < arrSearch_Suggest.length; j++){
+					var search_suggest = arrSearch_Suggest[j];
+					if( drawing.id == search_suggest.id){
+						isContains = true;
+						break;
+					}
+				}
+				if( !isContains){
+					arrSearch_Suggest.push(drawing);
+				}
+			}
+			var strHtml = "";
+			for( var i = 0; i < arrSearch_Suggest.length; i++){
+				var ss = arrSearch_Suggest[i];
+				var id = ss.id; 
+				var label = ss.label;
+				strHtml += "<input type = 'checkbox' name = '" + id + "'>" + label + "<br/>";
+			}
+			strHtml += '<button class="continueBtn" onclick="continueClicked()">Continue</button>';
+			$(".Answers").html(strHtml);
+		} else{
+			for( var i = 0; i < arrDrawings.length; i++){
+				var drawing = arrDrawings[i]
+				arrSearch_Suggest.push( drawing);
+			}
+		}
+	}
+	function parseSearch(response){
+		var strQuestion = "Would you like information about any of the following?";
+		$(".Question").html("<h1>" + strQuestion + "</h1>");
+		// var strHtml = "";
+		var arrSearches = [];
+		for( var i = 0; i < response.length; i++){
+			var answer = response[i];
+			var id = answer.id;
+			var label = answer.label;
+			arrSearches.push({"id":id, "label":label});
+		}
+		isSearch = true;
+		DrawSearches_Suggests(arrSearches);
+	}
+	function parseSuggest(response){
+		var arrSuggest = [];
+		for( var i = 0; i < response.length; i++){
+			var answer = response[i];
+			var id = answer.id;
+			var label = answer.common_name;
+			arrSuggest.push({"id":id, "label": label});
+		}
+		isSuggest = true;
+		DrawSearches_Suggests(arrSuggest);
+	}
+	function parseResponse1(response){
+		if( response.mentions.length == 0){
+			alert("Please re-enter the answer.");
+			return;
+		}
+		console.log(response.mentions[0]);
+		var choice_id = response.mentions[0].choice_id;
+		var common_name = response.mentions[0].common_name;
+		var id = response.mentions[0].id;
+		var name = response.mentions[0].name;
+		var orth = response.mentions[0].orth;
+		var type = response.mentions[0].type;
+		isSearch = false;
+		isSuggest = false;
+		// Search
+		var settings = {
+			"async": true,
+			"crossDomain": true,
+			"url": "https://api.infermedica.com/v2/search?phrase="+orth+"&max_results=8",
+			"method": "GET",
+			"headers": {
+				"App-Id": "939b290c",
+				"App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+				"Cache-Control": "no-cache"
+			}
+		}
+		$.ajax(settings).done(function (response) {
+			parseSearch(response);
+		});
+		//Suggest
+		var settings = {
+			"async": true,
+			"crossDomain": true,
+			"url": "https://api.infermedica.com/v2/suggest",
+			"method": "POST",
+			"headers": {
+			"App-Id": "939b290c",
+			"App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+			"Content-Type": "application/json",
+			"Cache-Control": "no-cache"
+			},
+			"processData": false,
+			"data": '{"sex": "male","age": "32","selected": ["'+id+'"]}'
+		}
+
+		$.ajax(settings).done(function (response) {
+			parseSuggest(response);
+		});
+	}
+	function keyPress(event){
+		if( event.keyCode == 13){
+			startClicked();
+		}
+	}
+	function startClicked(){
+		console.log("startClicked");
+		var strAnswer = $('input[name="answer"]').val();
+		console.log( strAnswer);
+		var settings = {
+		  "async": true,
+		  "crossDomain": true,
+		  "url": "https://api.infermedica.com/v2/parse",
+		  "method": "POST",
+		  "headers": {
+		    "App-Id": "939b290c",
+		    "App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+		    "Content-Type": "application/json",
+		    "Cache-Control": "no-cache"
+		  },
+		  "processData": false,
+		  "data": '{"sex": "male", "age": "32", "text": "'+strAnswer+'"}'
+		}
+
+		$.ajax(settings).done(function (response) {
+			parseResponse1(response);
+		});
+	}
+	function startState(){
+		$(".Question").html("<h1>Hello, How can I help you?");
+		var strHtml = "";
+		strHtml += '<p>';
+			strHtml += '<input type="text" name="answer" onkeyup="keyPress(event)">';
+			strHtml += '<button class="startBtn" onclick="startClicked()">Ask Medics2You</button>';
+		strHtml += '</p>';
+		$(".Answers").html(strHtml);
+	}
+	function callPosting(){
+		var settings = {
+			"async": true,
+			"crossDomain": true,
+			"url": "https://api.infermedica.com/v2/risk_factors/p_8",
+			"method": "GET",
+			"headers": {
+				"App-Id": "939b290c",
+				"App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+				"Cache-Control": "no-cache"
+			}
+		}
+
+		$.ajax(settings).done(function (response) {
+			console.log(response);
+		});	
+	}
+	startState();
+</script>
