@@ -30,6 +30,11 @@ class stateManager{
 		return this.state;
 	}
 	moveTo( _where){
+		if( _where == -1){
+			this.state = g_states.STAT_FIRST_WELCOME;
+			drawContents();
+			return;
+		}
 		switch(this.state){
 			case g_states.STAT_FIRST_WELCOME:
 				if( _where == 0){
@@ -40,7 +45,6 @@ class stateManager{
 			break;
 			case g_states.STAT_LOGIN_BEFORE:
 				switch(_where){
-					case -1: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 1: this.state = g_states.STAT_SIGN_1; break;
 					case 2: this.state = g_states.STAT_LOGIN; break;
@@ -48,38 +52,33 @@ class stateManager{
 			break;
 			case g_states.STAT_LOGIN:
 				switch(_where){
-					case -1: this.state = g_states.STAT_LOGIN_BEFORE; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_LOGIN_BEFORE; break;
 					case 1: this.state = g_states.STAT_WELCOME_BACK; break;
 					case 2: this.state = g_states.STAT_FORGOT_PASS; break;
 				}
 				break;
 			case g_states.STAT_FORGOT_PASS:
 				switch(_where){
-					case -1: this.state = g_states.STAT_LOGIN_BEFORE; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_LOGIN_BEFORE; break;
 				}
 				break;
 			case g_states.STAT_SIGN_1:
 				switch(_where){
-					case -1: this.state = g_states.STAT_LOGIN_BEFORE; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_LOGIN_BEFORE; break;
 					case 1: this.state = g_states.STAT_SIGN_2; break;
 					case 2: this.state = g_states.STAT_LOGIN; break;
 				}
 				break;
 			case g_states.STAT_SIGN_2:
 				switch(_where){
-					case -1: this.state = g_states.STAT_SIGN_1; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_SIGN_1; break;
 					case 1: this.state = g_states.STAT_SIGN_3; break;
 					case 2: this.state = g_states.STAT_LOGIN; break;
 				}
 				break;
 			case g_states.STAT_SIGN_3:
 				switch(_where){
-					case -1: this.state = g_states.STAT_SIGN_2; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_SIGN_2; break;
 					case 1: this.state = g_states.STAT_WELCOME_BACK; break;
 				}
 				break;
@@ -93,7 +92,6 @@ class stateManager{
 				break;
 			case g_states.STAT_WHO_CAN_I:
 				switch(_where){
-					case -1: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
 					case 1: this.state = g_states.STAT_DIAGNOSIS_READY; break;
@@ -101,84 +99,73 @@ class stateManager{
 				break;
 			case g_states.STAT_WHO_CAN_SOMEONE:
 				switch(_where){
-					case -1: this.state = g_states.STAT_WHO_CAN_I; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_WHO_CAN_I; break;
 					case 1: this.state = g_states.STAT_SYMPTOM_CONFIRM; break;
 					case 2: this.state = g_states.STAT_SOMEONE_REG_1; break;
 				}
 				break;
 			case g_states.STAT_SOMEONE_REG_1:
 				switch(_where){
-					case -1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
 					case 1: this.state = g_states.STAT_SOMEONE_REG_2; break;
 				}
 				break;
 			case g_states.STAT_SOMEONE_REG_2:
 				switch(_where){
-					case -1: this.state = g_states.STAT_SOMEONE_REG_1; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_SOMEONE_REG_1; break;
 					case 1: this.state = g_states.STAT_SOMEONE_REG_3; break;
 				}
 				break;
 			case g_states.STAT_SOMEONE_REG_3:
 				switch(_where){
-					case -1: this.state = g_states.STAT_SOMEONE_REG_2; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_SOMEONE_REG_2; break;
 					case 1: this.state = g_states.STAT_SOMEONE_REG_4; break;
-					case 1: this.state = g_states.STAT_FORGOT_PASS; break;			}
+				}
 				break;
 			case g_states.STAT_SOMEONE_REG_4:
 				switch(_where){
-					case -1: this.state = g_states.STAT_SOMEONE_REG_3; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
-					case 1: this.state = g_states.STAT_SYMPTOM_CONFIRM; break;
+					case 0: this.state = g_states.STAT_SOMEONE_REG_3; break;
+					case 1: this.state = g_states.STAT_SOMEONE_CHILDREN; break;
+					case 2: this.state = g_states.STAT_SYMPTOM_CONFIRM; break;
 				}
 				break;
 			case g_states.STAT_SOMEONE_CHILDREN:
 				switch(_where){
-					case -1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
 // ?					case 1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
 				}
 				break;
 			case g_states.STAT_SOMEONE_CHILDREN_AGAIN:
 				switch(_where){
-					case -1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
 // ?					case 1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
 				}
 				break;
 			case g_states.STAT_DIAGNOSIS_READY:
 				switch(_where){
-					case -1: this.state = g_states.STAT_WHO_CAN_I; break;
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
+					case 0: this.state = g_states.STAT_WHO_CAN_I; break;
 					case 1: this.state = g_states.STAT_SYMPTOM_CONFIRM; break;
 				}
 				break;
 			case g_states.STAT_SYMPTOM_CONFIRM:
 				switch(_where){
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
 // ?					case 1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
 					case 2: this.state = g_states.STAT_SYMPTOM_INPUT_AGAIN; break;
 				}
 				break;
 			case g_states.STAT_SYMPTOM_INPUT_AGAIN:
 				switch(_where){
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 1: this.state = g_states.STAT_SYMPTOM_CONFIRM_AGAIN; break;
 				}
 				break;
 			case g_states.STAT_SYMPTOM_CONFIRM_AGAIN:
 				switch(_where){
-					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
 // ?					case 1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
 					case 2: this.state = g_states.STAT_SYMPTOM_INPUT_AGAIN; break;
 				}
 				break;
 			case g_states.STAT_SYMPTOM_INPUT_NEW:
 				switch(_where){
-					case -1: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 1: this.state = g_states.STAT_WHO_CAN_I; break;
 				}
@@ -190,5 +177,3 @@ class stateManager{
 	}
 
 }
-
-let objState = new stateManager();
