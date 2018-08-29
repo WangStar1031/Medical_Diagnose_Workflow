@@ -20,6 +20,11 @@
 <script type="text/javascript">
 	var strFirstName = "";
 	var strLastName = "";
+	var strCountryCode = "";
+	var strGender = "";
+	var strYear = "";
+	var strMonth = "";
+	var strDay = "";
 	var customer_Age = "";
 	var customer_Gender = "";
 	var strAllCustomers = "";

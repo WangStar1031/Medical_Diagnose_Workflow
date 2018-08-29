@@ -25,8 +25,8 @@ function verifyBirth(){
 		alert("Please select birthday.");
 		return false;
 	}
-	cur_reg_year = $("#dayddl option:selected").val();
+	cur_reg_day = $("#dayddl option:selected").val();
 	cur_reg_month = $("#monthddl option:selected").val();
-	cur_reg_day = $("#yearddl option:selected").val()
+	cur_reg_year = $("#yearddl option:selected").val();
 	return true;
 }

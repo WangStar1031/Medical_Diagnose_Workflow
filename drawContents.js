@@ -77,6 +77,19 @@ function drawSign1(){
 	strHtml += "</div>";
 	$(".Infer_Med_root").html(strHtml);
 }
+function verifySign2Infos(){
+	if( verifyBirth() == false)
+		return false;
+	strYear = cur_reg_year;
+	strMonth = cur_reg_month;
+	strDay = cur_reg_day;
+	strGender = $(".Infer_Medi_Option.activated").html();
+	strCountryCode = $("select[name='countries'] option:selected").val();
+	if( strGender == "" || strCountryCode == ""){
+		return false;
+	}
+	return true;
+}
 function drawSign2(){
 	var strHtml = "";
 	strHtml += "<div class='Infer_Medi_header'>";
@@ -93,7 +106,7 @@ function drawSign2(){
 	strHtml += strBirth + "<br/>";
 	strHtml += "<label>Gender</label><br/>";
 	strHtml += makeOptionButtons(["Male", "Female"]) + "<br/>";
-	strHtml += "<button onclick='objState.moveTo(1)'>Next</button>";
+	strHtml += "<button onclick='if(verifySign2Infos())objState.moveTo(1)'>Next</button>";
 	strHtml += "<button class='Infer_Medi_already' onclick='objState.moveTo(2)'>I already have an account</button>";
 	strHtml += "</div>";
 	$(".Infer_Med_root").html(strHtml);
@@ -190,6 +203,11 @@ function alertMsg(value){
 	}
 	return true;
 }
+function verifyValue( _value){
+	if( !_value)
+		return false;
+	return true;
+}
 function drawSomeoneReg1(){
 	var strHtml = "";
 	strHtml += "<div class='Infer_Medi_header'>";
@@ -200,7 +218,7 @@ function drawSomeoneReg1(){
 	strHtml += "<div class='Infer_Medi_question'><p>What is their first name?</p></div>";
 	strHtml += "<div class='Infer_Medi_answer'>";
 	strHtml += "<input type='text' name='firstName' placeholder='Type something...'>";
-	strHtml += "<button onclick='cur_reg_firstName=$(\"input[name='firstName'\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
+	strHtml += "<button onclick='cur_reg_firstName=$(\"input\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
 	strHtml += "</div>";
 	$(".Infer_Med_root").html(strHtml);
 }
@@ -214,7 +232,7 @@ function drawSomeoneReg2(){
 	strHtml += "<div class='Infer_Medi_question'><p>What is " + cur_reg_firstName + "\'s surname?</p></div>";
 	strHtml += "<div class='Infer_Medi_answer'>";
 	strHtml += "<input type='text' name='firstName' placeholder='Type something...'>";
-	strHtml += "<button onclick='cur_reg_lastName=$(\"input[name='lastName']\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
+	strHtml += "<button onclick='cur_reg_lastName=$(\"input\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
 	strHtml += "</div>";
 	$(".Infer_Med_root").html(strHtml);
 }
@@ -227,8 +245,8 @@ function drawSomeoneReg3(){
 	strHtml += "<div style='clear:both;'></div>"
 	strHtml += "<div class='Infer_Medi_question'><p>What is " + cur_reg_firstName + "\'s gender?</p></div>";
 	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<button onclick='cur_reg_gender=\"Male\";objState.moveTo(1);'>Send</button>";
-	strHtml += "<button onclick='cur_reg_gender=\"Female\";objState.moveTo(1);'>Send</button>";
+	strHtml += "<button onclick='cur_reg_gender=\"Male\";objState.moveTo(1);'>Male</button>";
+	strHtml += "<button onclick='cur_reg_gender=\"Female\";objState.moveTo(1);'>Female</button>";
 	strHtml += "</div>";
 	$(".Infer_Med_root").html(strHtml);
 }
@@ -236,7 +254,7 @@ function submitCustomer(){
 	if(verifyBirth() == false){
 		return;
 	}
-	customer_Age = (new Date()).getFullYear() - cur_reg_year * 1;
+	customer_Age = (new Date()).getFullYear() - (cur_reg_year * 1);
 	customer_Gender = cur_reg_gender;
 	var customer = {birthYear: cur_reg_year, gender: customer_Gender};
 	var arrCustomers = [];
@@ -263,12 +281,28 @@ function drawSomeoneReg4(){
 	strHtml += "<div class='Infer_Medi_question'><p>What is " + cur_reg_firstName + "\'s date of birth?</p></div>";
 	strHtml += "<div class='Infer_Medi_answer'>";
 	strHtml += strBirth;
-	strHtml += "<button onclick='submitCustomer();'>Send</button>";
+	strHtml += "<button onclick='submitCustomer();'>Submit</button>";
 	strHtml += "</div>";
 	$(".Infer_Med_root").html(strHtml);
 }
+function submitPhoneNumber(){
+	alert("sent your phone number.");
+}
 function drawSomeoneChildren(){
-
+	var strHtml = "";
+	strHtml += "<div class='Infer_Medi_header'>";
+	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
+	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>"
+	strHtml += "<div class='Infer_Medi_question'><p>Thank you! I will also need to ask for a phone number to contact in case of emergency.</p></div>";
+	strHtml += "<div class='Infer_Medi_answer'>";
+	strHtml += "<p>With kids I take extra care.</p>";
+	strHtml += "<label>+" + getPhoneCode4Country(strCountryCode) + "</label>";
+	strHtml += "<input type='tel'>";
+	strHtml += "<button onclick='submitPhoneNumber();'>Send</button>";
+	strHtml += "</div>";
+	$(".Infer_Med_root").html(strHtml);
 }
 function drawContents(){
 	switch(objState.getState()){
