@@ -51,7 +51,7 @@ function drawLogin(){
 	$(".Infermedica_root").html(strHtml);
 }
 function signIn1Next() {
-	strFirstName = $("input[name='firstName']").val();
+	strFirstName = $(".Infermedica_root input[name='firstName']").val();
 	if( strFirstName == ""){
 		alert("Please insert First Name.");
 		return;
@@ -304,6 +304,71 @@ function drawSomeoneChildren(){
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
+function drawDiagnosisReady(){
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>"
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>I\'m now going to ask you a few questions about your symptoms. Whilst some of my questions might seem unrelated, I was trained by doctors to consider many possible causes for the symptoms you entered. When I\'m done, I\'ll provide you with a report based on the information you with a report based on the information you\'ve given me.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<p>Before we start, I have to remind you that for regulatory reasons, at the moment, I can\'t help with skin problems, pregnancy or children\'s health. Please also note this isn\'t a personal diagnosis and is for information purposes only.</p>";
+	strHtml += "<p>If you or someone else are experiencing concerning symptoms, including any of the following. I would advise you contact emergency services immediately: (1) Servere, heavy or crushing chest pain, which may move to jaw, neck, arm, or back, or be associated with sweating, shortness of breath or nausea. (2) Signs of a stroke, which may include facial weakness, inablility to hold both arms up, or difficulty speaking. (3) Severe breathing problems.</p>";
+	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1);'>Continue</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
+}
+function drawSymptomConfirm(){
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>"
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Firstly, I\'d like to check that I understand you correctly. Is your main symptom: "+strMainSymptom+"?</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1);'>Yes</button>";
+	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(2);'>No</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
+}
+function symptomInputAgain(){
+	var strSymptom = $(".Infermedica_root input").val();
+	if( !strSymptom){
+		alert("Please enter your symptom.");
+		return;
+	}
+	objState.moveTo(1);
+}
+function drawSymptomInputAgain(){
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>"
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>I\'m sorry, I don\'t think I correctly understood your symptom.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<p>Please try again, descriting the symptom in simple language.</p>";
+	strHtml += "<input class='Infermedica_input' type='text' id='mainAnswer'><button class='Infermedica_button_right' onclick='symptomInputAgain()'>Send</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
+}
+function drawSymptomConfirmAgain(){
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>"
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Once again, I\'d like to check that I understand you correctly. Is  your symptomo: "+strMainSymptom+"?</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1);'>Yes</button>";
+	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(2);'>No</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
+}
 function drawContents(){
 	switch(objState.getState()){
 		case g_states.STAT_FIRST_WELCOME: drawFirstWelcome(); break;
@@ -320,6 +385,11 @@ function drawContents(){
 		case g_states.STAT_SOMEONE_REG_3: drawSomeoneReg3(); break;
 		case g_states.STAT_SOMEONE_REG_4: drawSomeoneReg4(); break;
 		case g_states.STAT_SOMEONE_CHILDREN: drawSomeoneChildren(); break;
+		case g_states.STAT_DIAGNOSIS_READY: drawDiagnosisReady(); break;
+		case g_states.STAT_SYMPTOM_CONFIRM: drawSymptomConfirm(); break;
+		case g_states.STAT_SYMPTOM_INPUT_AGAIN: drawSymptomInputAgain(); break;
+		case g_states.STAT_SYMPTOM_CONFIRM_AGAIN: drawSymptomConfirmAgain(); break;
+
 	}
 }
 drawContents();

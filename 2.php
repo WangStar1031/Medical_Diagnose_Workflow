@@ -46,7 +46,7 @@
 
 	.Infermedica_answer {
 		position: relative;
-		min-height: 100%;
+		/*min-height: 100%;*/
     	-webkit-animation-fill-mode: both;
     	animation-fill-mode: both;
 	    -webkit-font-smoothing: antialiased;
@@ -154,7 +154,10 @@
 	    -o-transition-timing-function: ease-out;
 	    transition-timing-function: ease-out;
 	}
-
+	.Infermedica_button:after{
+		content: ">";
+		float: right;
+	}
 	.Infermedica_button:hover, .Infermedica_button:focus, .Infermedica_button:hover {
 	    background-color: #e4eaf0;
 	}
@@ -236,6 +239,8 @@
 	var cur_reg_year = "";
 	var cur_reg_month = "";
 	var cur_reg_day = "";
+
+	var strMainSymptom = "";
 </script>
 <script src="cookie.js"></script>
 <script src="phoneCode.js"></script>
