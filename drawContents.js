@@ -14,41 +14,41 @@ function welcomBtnClicked(){
 }
 function drawFirstWelcome(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_question'><p>Hello, how can I help you?</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'><input type='text' id='mainAnswer'><button onclick='welcomBtnClicked()'>Ask Medics2You</button></div>";
-	$(".Infer_Med_root").html(strHtml);
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hello, how can I help you?</p></div>";
+	strHtml += "<div class='Infermedica_answer'><input class='Infermedica_input' type='text' id='mainAnswer'><button class='Infermedica_button_right' onclick='welcomBtnClicked()'>Ask Medics2You</button></div>";
+	$(".Infermedica_root").html(strHtml);
 }
 function drawLoginBefore(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(-1)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(-1)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>Befor I can help, I need to take some details from you.</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<button onclick='objState.moveTo(1)'>Get Started</button>";
-	strHtml += "<button class='Infer_Medi_already' onclick='objState.moveTo(2)'>I already have an account.</button>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Befor I can help, I need to take some details from you.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1)'>Get Started</button>";
+	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'>I already have an account.</div>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function drawLogin(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>Log in to your account</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<label>Email</label><br/>";
-	strHtml += "<input type='email' name='email'><br/>";
-	strHtml += "<label>Password</label><br/>";
-	strHtml += "<input type='password' name='password'><br/>"
-	strHtml += "<button onclick='objState.moveTo(0)'>Log in</button>";
-	strHtml += "<button class='Infer_Medi_forgot' onclick='objState.moveTo(1)'>Forgotten your passowrd?</button>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Log in to your account</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<label class='Infermedica_label'>Email</label><br/>";
+	strHtml += "<input class='Infermedica_input' type='email' name='email'><br/>";
+	strHtml += "<label class='Infermedica_label'>Password</label><br/>";
+	strHtml += "<input class='Infermedica_input' type='password' name='password'><br/>"
+	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(0)'>Log in</button>";
+	strHtml += "<div class='Infermedica_forgot' onclick='objState.moveTo(1)'>Forgotten your passowrd?</div>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function signIn1Next() {
 	strFirstName = $("input[name='firstName']").val();
@@ -61,21 +61,21 @@ function signIn1Next() {
 }
 function drawSign1(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>Let\'s set-up your profile, it only takes a miutes.</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<label>First name</label><br/>";
-	strHtml += "<input type='text' name='firstName'><br/>";
-	strHtml += "<label>Last name</label><br/>";
-	strHtml += "<input type='text' name='lastName'><br/>"
-	strHtml += "<button onclick='signIn1Next()'>Next</button>";
-	strHtml += "<button class='Infer_Medi_already' onclick='objState.moveTo(2)'>I already have an account</button>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Let\'s set-up your profile, it only takes a miutes.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<label class='Infermedica_label'>First name</label><br/>";
+	strHtml += "<input class='Infermedica_input' type='text' name='firstName'><br/>";
+	strHtml += "<label class='Infermedica_label'>Last name</label><br/>";
+	strHtml += "<input class='Infermedica_input' type='text' name='lastName'><br/>"
+	strHtml += "<button class='Infermedica_button_full' onclick='signIn1Next()'>Next</button>";
+	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'>I already have an account</div>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function verifySign2Infos(){
 	if( verifyBirth() == false)
@@ -83,7 +83,7 @@ function verifySign2Infos(){
 	strYear = cur_reg_year;
 	strMonth = cur_reg_month;
 	strDay = cur_reg_day;
-	strGender = $(".Infer_Medi_Option.activated").html();
+	strGender = $(".Infermedica_Option.activated").html();
 	strCountryCode = $("select[name='countries'] option:selected").val();
 	if( strGender == "" || strCountryCode == ""){
 		return false;
@@ -92,75 +92,75 @@ function verifySign2Infos(){
 }
 function drawSign2(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>Hi, " + strFirstName + "</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, " + strFirstName + "</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<p>We\'re going to be asking you a few more questions in order to provide you with the most accurate medical advice.</p>";
-	strHtml += "<label>Country</label><br/>";
+	strHtml += "<label class='Infermedica_label'>Country</label><br/>";
 	strHtml += countrySelect + "<br/>";
-	strHtml += "<label>Date of birth</label><br/>";
+	strHtml += "<label class='Infermedica_label'>Date of birth</label><br/>";
 	strHtml += strBirth + "<br/>";
-	strHtml += "<label>Gender</label><br/>";
+	strHtml += "<label class='Infermedica_label'>Gender</label><br/>";
 	strHtml += makeOptionButtons(["Male", "Female"]) + "<br/>";
-	strHtml += "<button onclick='if(verifySign2Infos())objState.moveTo(1)'>Next</button>";
-	strHtml += "<button class='Infer_Medi_already' onclick='objState.moveTo(2)'>I already have an account</button>";
+	strHtml += "<button class='Infermedica_button_full' onclick='if(verifySign2Infos())objState.moveTo(1)'>Next</button>";
+	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'>I already have an account</div>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function drawSign3(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>Finally. We just need an email address and password to keep your data safe.</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<label>Email</label><br/>";
-	strHtml += "<input type='email' name='email'><br/>";
-	strHtml += "<label>Password</label><br/>";
-	strHtml += "<input type='password' name='password'><br/>"
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Finally. We just need an email address and password to keep your data safe.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<label class='Infermedica_label'>Email</label><br/>";
+	strHtml += "<input class='Infermedica_input' type='email' name='email'><br/>";
+	strHtml += "<label class='Infermedica_label'>Password</label><br/>";
+	strHtml += "<input class='Infermedica_input' type='password' name='password'><br/>"
 	strHtml += "<p>Use at least 8 charactrers including a number an uppercase and a lowercase letter.</p>";
-	strHtml += "<input type='checkbox' name='chkAgree'> I agree to the terms & confditions<br/>";
+	strHtml += "<input class='Infermedica_input' type='checkbox' name='chkAgree'> I agree to the terms & confditions<br/>";
 	strHtml += "<p>By proceeding you acknowledge that you have read and agree to the <span>Terms & Conditions</span></p>";
 	strHtml += "<p>Use of the Medics2You service is subject to the <span>Privacy Policy</span></p>";
-	strHtml += "<button onclick='objState.moveTo(1)'>Create account</button>";
+	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1)'>Create account</button>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function drawWelcomeBack(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>Hi, welcome back to Medics2You. I\'m here to make sure you get the medical help you need.</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, welcome back to Medics2You. I\'m here to make sure you get the medical help you need.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<p>If this is an emergency, please call 999. I need to let you know. I\'m still learning about symptoms in pregnancy, skin problems, and mental health issues, so for these please speak to a GP.</p>";
 	strHtml += "<p>Who can I help today?</p>"
-	strHtml += "<button onclick='objState.moveTo(1)'>Someone else</button>";
-	strHtml += "<button onclick='objState.moveTo(2)'>Myself</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1)'>Someone else</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Myself</button>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function drawWhoCanI(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>Hi, "+strFirstName+". Who can I help today?</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<button onclick='objState.moveTo(1)'>Someone else</button>";
-	strHtml += "<button onclick='objState.moveTo(2)'>Myself</button>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, "+strFirstName+". Who can I help today?</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1)'>Someone else</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Myself</button>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function setCustomer(customer=null){
 	if( customer == null){
@@ -178,22 +178,22 @@ function drawWhoCanSomeOne(){
 		arrCustomers = JSON.parse(strAllCustomers);
 	}
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>Who needs my help today?</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<button onclick='setCustomer();objState.moveTo(1)'>I don\'t know I don\'t know</button>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Who needs my help today?</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<button class='Infermedica_button' onclick='setCustomer();objState.moveTo(1)'>I don\'t know I don\'t know</button>";
 	for( var i = 0; i < arrCustomers.length; i++){
 		var customer = arrCustomers[i];
-		strHtml += "<button onclick='setCustomer(" + customer + ");objState.moveTo(1)'>";
+		strHtml += "<button class='Infermedica_button' onclick='setCustomer(" + customer + ");objState.moveTo(1)'>";
 		strHtml += customer.firstName + " " + customer.lastName + "</button>";
 	}
-	strHtml += "<button onclick='objState.moveTo(2)'>Someone else</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Someone else</button>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 
 }
 function alertMsg(value){
@@ -210,45 +210,45 @@ function verifyValue( _value){
 }
 function drawSomeoneReg1(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>What is their first name?</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<input type='text' name='firstName' placeholder='Type something...'>";
-	strHtml += "<button onclick='cur_reg_firstName=$(\"input\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>What is their first name?</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<input class='Infermedica_input' type='text' name='firstName' placeholder='Type something...'>";
+	strHtml += "<button class='Infermedica_button_right' onclick='cur_reg_firstName=$(\"input\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function drawSomeoneReg2(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>What is " + cur_reg_firstName + "\'s surname?</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<input type='text' name='firstName' placeholder='Type something...'>";
-	strHtml += "<button onclick='cur_reg_lastName=$(\"input\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>What is " + cur_reg_firstName + "\'s surname?</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<input class='Infermedica_input' type='text' name='firstName' placeholder='Type something...'>";
+	strHtml += "<button class='Infermedica_button_right' onclick='cur_reg_lastName=$(\"input\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function drawSomeoneReg3(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>What is " + cur_reg_firstName + "\'s gender?</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
-	strHtml += "<button onclick='cur_reg_gender=\"Male\";objState.moveTo(1);'>Male</button>";
-	strHtml += "<button onclick='cur_reg_gender=\"Female\";objState.moveTo(1);'>Female</button>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>What is " + cur_reg_firstName + "\'s gender?</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<button class='Infermedica_button' onclick='cur_reg_gender=\"Male\";objState.moveTo(1);'>Male</button>";
+	strHtml += "<button class='Infermedica_button' onclick='cur_reg_gender=\"Female\";objState.moveTo(1);'>Female</button>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function submitCustomer(){
 	if(verifyBirth() == false){
@@ -273,36 +273,36 @@ function submitCustomer(){
 }
 function drawSomeoneReg4(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>What is " + cur_reg_firstName + "\'s date of birth?</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>What is " + cur_reg_firstName + "\'s date of birth?</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += strBirth;
-	strHtml += "<button onclick='submitCustomer();'>Submit</button>";
+	strHtml += "<button class='Infermedica_button_right' onclick='submitCustomer();'>Submit</button>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function submitPhoneNumber(){
 	alert("sent your phone number.");
 }
 function drawSomeoneChildren(){
 	var strHtml = "";
-	strHtml += "<div class='Infer_Medi_header'>";
-	strHtml += "<button class='Infer_Medi_back' onclick='objState.moveTo(0)'>Back</button>";
-	strHtml += "<button class='Infer_Medi_exit' onclick='objState.moveTo(-1)'>Exit</button>";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infer_Medi_question'><p>Thank you! I will also need to ask for a phone number to contact in case of emergency.</p></div>";
-	strHtml += "<div class='Infer_Medi_answer'>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Thank you! I will also need to ask for a phone number to contact in case of emergency.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<p>With kids I take extra care.</p>";
-	strHtml += "<label>+" + getPhoneCode4Country(strCountryCode) + "</label>";
-	strHtml += "<input type='tel'>";
-	strHtml += "<button onclick='submitPhoneNumber();'>Send</button>";
+	strHtml += "<label class='Infermedica_label'>+" + getPhoneCode4Country(strCountryCode) + "</label>";
+	strHtml += "<input class='Infermedica_input' type='tel'>";
+	strHtml += "<button class='Infermedica_button_right' onclick='submitPhoneNumber();'>Send</button>";
 	strHtml += "</div>";
-	$(".Infer_Med_root").html(strHtml);
+	$(".Infermedica_root").html(strHtml);
 }
 function drawContents(){
 	switch(objState.getState()){
