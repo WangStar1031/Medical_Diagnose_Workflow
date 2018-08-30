@@ -84,17 +84,16 @@ class stateManager{
 				break;
 			case g_states.STAT_WELCOME_BACK:
 				switch(_where){
-					case -1: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
-					case 1: this.state = g_states.STAT_DIAGNOSIS_READY; break;
+					case 2: this.state = g_states.STAT_DIAGNOSIS_READY; break;
 				}
 				break;
 			case g_states.STAT_WHO_CAN_I:
 				switch(_where){
 					case 0: this.state = g_states.STAT_FIRST_WELCOME; break;
 					case 1: this.state = g_states.STAT_WHO_CAN_SOMEONE; break;
-					case 1: this.state = g_states.STAT_DIAGNOSIS_READY; break;
+					case 2: this.state = g_states.STAT_DIAGNOSIS_READY; break;
 				}
 				break;
 			case g_states.STAT_WHO_CAN_SOMEONE:
