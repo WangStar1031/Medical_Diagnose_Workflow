@@ -1,0 +1,343 @@
+.Infermedica_root{
+	position: relative;
+	text-align: left;
+    width: 100%;
+    height: 100%;
+    max-width: 667px;
+    max-height: 840px;
+    padding: 0;
+    margin: 0 auto;
+    overflow: visible;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-ms-flex: 1 0 auto;
+	flex: 1 0 auto;
+	overflow: visible;
+}
+
+.Infermedica_question {
+    position: relative;
+    margin-bottom: 10px;
+    padding-top: 27px;
+}
+
+.Infermedica_question_header {
+	font-size: 2em;
+    letter-spacing: -.5px;
+    line-height: 1.3em;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-family: Visuelt,sans-serif;
+    text-rendering: optimizeLegibility;
+    font-weight: 700;
+    color: #d2205a;
+}
+
+@media screen and (min-width: 500px) {
+	.Infermedica_question_header {
+	    font-size: 2.8em;
+	}
+}
+
+.Infermedica_diagnosis_question_header {		
+	font-size: 1.6em;
+    letter-spacing: -.5px;
+    line-height: 1.3em;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-family: Visuelt,sans-serif;
+    text-rendering: optimizeLegibility;
+    font-weight: 700;
+    color: #d2205a;
+}
+
+@media screen and (min-width: 500px) {
+	.Infermedica_diagnosis_question_header {
+	    font-size: 2em;
+	}
+}
+
+.Infermedica_Description {
+	font-size: 16px;
+    font-family: Visuelt,sans-serif;
+    font-weight: 300;
+    margin-top: -10px;
+    margin-bottom: 30px;
+    color: #555772;
+    letter-spacing: -.3px;
+    line-height: 1.5em;
+    text-rendering: optimizeLegibility;
+}
+
+.Infermedica_answer {
+	position: relative;
+	/*min-height: 100%;*/
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+    -webkit-font-smoothing: antialiased;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;v
+    outline: none;
+}
+
+.Infermedica_button_right {
+	top: 50%;
+	min-width: 50px;
+	border-radius: 40px;
+    background-color: #293a8a;
+    font-family: Visuelt,sans-serif;
+    text-align: center;
+    color: #ffffff;
+    padding: 12px  24px;		
+	border: none;
+	position: absolute;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	font-size: 1rem;
+	right: 0px;
+	font-weight: 700;		
+    margin: 0;
+    outline: none;
+    vertical-align: baseline;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    letter-spacing: normal;
+    cursor: pointer;
+    overflow: visible;
+}
+
+@media screen and (min-width: 550px) {
+	.Infermedica_button_right {
+		font-size: 14px;
+		font-weight: 700;
+	}
+}	
+
+.Infermedica_button_right:hover, .Infermedica_button_right:focus, .Infermedica_button_right:hover {
+    background-color: #d2205a;
+    border: none;
+}
+
+.Infermedica_button_full {
+    position: relative;
+    width: 100%;
+	margin-top: 25px;
+	background: #293a8a;
+    outline: none;
+	border-radius: 40px;
+	padding: 12px 24px;
+	display: block;
+    text-align: center;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: Visuelt,sans-serif;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    border: none;
+    -webkit-transition: padding .2s;
+    -o-transition: padding .2s;
+    transition: padding .2s;
+    -webkit-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+
+}
+
+.Infermedica_button_full:hover, .Infermedica_button_full:focus, .Infermedica_button_full:hover {
+    background-color: #d2205a;
+    border: none;
+}
+
+.Infermedica_button {
+    position: relative;
+    width: 100%;
+	margin-top: 10px;
+	background: #f5f5f8;
+    outline: none;
+	border-radius: 40px;
+	padding: 12px 24px;
+	display: block;
+    text-align: left;
+    cursor: pointer;
+    color: #293a8a;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: Visuelt,sans-serif;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    border: none;
+    -webkit-transition: padding .2s;
+    -o-transition: padding .2s;
+    transition: padding .2s;
+    -webkit-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+.Infermedica_button:after {
+	content: ">";
+	float: right;
+}
+.Infermedica_button:hover, .Infermedica_button:focus, .Infermedica_button:hover {
+    background-color: #e4eaf0;
+}
+
+.Infermedica_forgot, .Infermedica_already {
+	position: relative;
+	border-radius: 40px;
+	padding: 12px 24px;
+	background: none;
+	display: block;
+    cursor: pointer;
+	color: #d2205a;
+    font-size: 16px;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    text-align: left;
+    padding: 17px 0;
+    border-radius: 8px;
+    font-weight: 500;
+    position: relative;
+    font-family: Visuelt,sans-serif;
+    border: none;
+    -webkit-transition: padding .2s;
+    -o-transition: padding .2s;
+    transition: padding .2s;
+    -webkit-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+.Infermedica_label {
+	width: 100%;
+    float: none;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3.2px;
+    color: #293a8a;
+    font-family: Visuelt,sans-serif;
+    margin-top: 14px;
+    margin-bottom: 10px;
+    text-align: left;
+    min-height: 1px;
+}
+
+.Infermedica_select {
+	width: 100% ;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #2c2c2c;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid #293a8a;
+    padding-left: 0;
+    outline: none;
+}
+
+#dayddl, #monthddl, #yearddl {
+	width: 32%;
+    float: left;
+    margin-right: 2%;
+}
+
+#yearddl {
+	margin-right: 0;
+}
+
+.Infermedica_Option {
+    margin: 5px;
+    border: 2px solid #293a8a;
+    border-radius: 15px;
+    padding: 5px 25px;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 0;
+    width: auto;
+    display: inline-block;
+    float: none;
+    text-transform: uppercase;
+    letter-spacing: 3.2px;
+    font-family: Visuelt,sans-serif;
+    cursor: pointer;
+    text-align: left;
+    outline: 0;
+    background: transparent;
+}
+
+.Infermedica_Option:hover, .activated {
+    background: #d2205a;
+    border-color: #d2205a;
+    color: #fff;
+}
+
+.Infermedica_input {
+	border: none;
+    border-bottom: 1px solid rgba(39,41,43,0.15);
+    border-radius: 0;
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+    padding-left: 0;
+    color: rgba(0,0,0,0.8);
+    font-size: 1em;
+    font-family: Visuelt,sans-serif;
+    line-height: 1.2;
+    width: 100%;
+    margin: 0em;
+    padding: 0.7em 1em;
+    outline: none;
+    background: #FFFFFF;
+    box-shadow: 0em 0em 0em 0em transparent inset;
+    -webkit-transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.main-input {
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #2c2c2c;
+    border: none;
+    border-bottom: 2px solid #293a8a;
+    padding: 16px;
+    padding-left: 0;
+    width: 80%;
+    margin-right: 20px;
+}
+
+.Infermedica_header .Infermedica_back {
+	float: left;
+	border: 0;
+	background-color: transparent;
+	cursor: pointer;
+	overflow: hidden;
+	font-size: 14px;
+	line-height: 14px;
+}
+.Infermedica_header .Infermedica_exit {
+	float: right;
+	border: 0;
+	background-color: transparent;
+	cursor: pointer;
+	overflow: hidden;
+	font-size: 14px;
+	line-height: 14px;
+}
+
+.Infermedica_header .Infermedica_back:hover, .Infermedica_header .Infermedica_exit:hover, .Infermedica_header .Infermedica_back:active, .Infermedica_header .Infermedica_exit:active, .Infermedica_header .Infermedica_back:focus, .Infermedica_header .Infermedica_exit:focus {
+	color: #d2205a;
+}

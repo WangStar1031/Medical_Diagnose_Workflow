@@ -1,19 +1,19 @@
 var strBirth = "";
-strBirth += "<select name='day' id='dayddl'>";
+strBirth += "<select class='Infermedica_select' name='day' id='dayddl'>";
 strBirth += "<option value='' hidden selected>DD</option>";
 for( var i = 1; i <=31; i++){
 	strBirth += "<option value='" + i + "'>" + i + "</option>";
 }
 strBirth += "</select>";
 var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"];
-strBirth += "<select name='month' id='monthddl'>";
+strBirth += "<select class='Infermedica_select' name='month' id='monthddl'>";
 strBirth += "<option value='' hidden selected>MMM</option>";
 for( var i = 1; i <= 12; i++){
 	strBirth += "<option value='" + i + "'>" + month[i-1] + "</option>";
 }
 strBirth += "</select>";
 
-strBirth += "<select name='day' id='yearddl'>";
+strBirth += "<select class='Infermedica_select' name='day' id='yearddl'>";
 strBirth += "<option value='' hidden selected>YYYY</option>";
 var nCurYear = (new Date()).getFullYear();
 for( var i = nCurYear; i >= nCurYear - 100; i--){

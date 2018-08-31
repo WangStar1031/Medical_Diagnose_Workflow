@@ -1,5 +1,5 @@
 var countrySelect = "";
-countrySelect+= '<select name="countries">';
+countrySelect+= '<select class="Infermedica_select" name="countries">';
 	countrySelect+= '<option value="AF">Afghanistan</option>';
 	countrySelect+= '<option value="AX">Åland Islands</option>';
 	countrySelect+= '<option value="AL">Albania</option>';

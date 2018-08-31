@@ -4,6 +4,7 @@ let objState = new stateManager();
 function gotoFirstWelcome(){
 	objState.moveTo(-1);
 }
+
 function welcomBtnClicked(){
 	if(getCookie("User_First_Name") == ""){
 		objState.moveTo(0);
@@ -15,9 +16,10 @@ function welcomBtnClicked(){
 function drawFirstWelcome(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hello, how can I help you?</p></div>";
-	strHtml += "<div class='Infermedica_answer'><input class='Infermedica_input' type='text' id='mainAnswer'><button class='Infermedica_button_right' onclick='welcomBtnClicked()'>Ask Medics2You</button></div>";
+	strHtml += "<div class='Infermedica_answer'><input class='main-input Infermedica_input' type='text' id='mainAnswer'><button class='Infermedica_button_right' onclick='welcomBtnClicked()'>Ask Medics2You</button></div>";
 	$(".Infermedica_root").html(strHtml);
 }
+
 function drawLoginBefore(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
@@ -32,6 +34,7 @@ function drawLoginBefore(){
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
+
 function drawLogin(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
@@ -45,8 +48,8 @@ function drawLogin(){
 	strHtml += "<input class='Infermedica_input' type='email' name='email'><br/>";
 	strHtml += "<label class='Infermedica_label'>Password</label><br/>";
 	strHtml += "<input class='Infermedica_input' type='password' name='password'><br/>"
-	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(0)'>Log in</button>";
-	strHtml += "<div class='Infermedica_forgot' onclick='objState.moveTo(1)'>Forgotten your passowrd?</div>";
+	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1)'>Log in</button>";
+	strHtml += "<div class='Infermedica_forgot' onclick='objState.moveTo(2)'>Forgotten your passowrd?</div>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -97,9 +100,9 @@ function drawSign2(){
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, " + strFirstName + "</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, " + strFirstName + ". good to meet you.</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<p>We\'re going to be asking you a few more questions in order to provide you with the most accurate medical advice.</p>";
+	strHtml += "<p class='Infermedica_Description'>We\'re going to be asking you a few more questions in order to provide you with the most accurate medical advice.</p>";
 	strHtml += "<label class='Infermedica_label'>Country</label><br/>";
 	strHtml += countrySelect + "<br/>";
 	strHtml += "<label class='Infermedica_label'>Date of birth</label><br/>";
@@ -124,10 +127,10 @@ function drawSign3(){
 	strHtml += "<input class='Infermedica_input' type='email' name='email'><br/>";
 	strHtml += "<label class='Infermedica_label'>Password</label><br/>";
 	strHtml += "<input class='Infermedica_input' type='password' name='password'><br/>"
-	strHtml += "<p>Use at least 8 charactrers including a number an uppercase and a lowercase letter.</p>";
-	strHtml += "<input class='Infermedica_input' type='checkbox' name='chkAgree'> I agree to the terms & confditions<br/>";
-	strHtml += "<p>By proceeding you acknowledge that you have read and agree to the <span>Terms & Conditions</span></p>";
-	strHtml += "<p>Use of the Medics2You service is subject to the <span>Privacy Policy</span></p>";
+	strHtml += "<p class='Infermedica_Description' style='margin-top: 16px; font-size: 12px;'>Use at least 8 charactrers including a number an uppercase and a lowercase letter.</p>";
+	strHtml += "<input class='' type='checkbox' name='chkAgree'> I agree to the terms & confditions<br/>";
+	strHtml += "<p class='Infermedica_Description' style='margin-top: 16px;'>By proceeding you acknowledge that you have read and agree to the <span style='color: #d2205a;'>Terms & Conditions</span></p>";
+	strHtml += "<p class='Infermedica_Description'>Use of the Medics2You service is subject to the <span style='color: #d2205a;'>Privacy Policy</span></p>";
 	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1)'>Create account</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
@@ -139,10 +142,10 @@ function drawWelcomeBack(){
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, welcome back to Medics2You. I\'m here to make sure you get the medical help you need.</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Hi, welcome back to Medics2You. I\'m here to make sure you get the medical help you need.</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<p>If this is an emergency, please call 999. I need to let you know. I\'m still learning about symptoms in pregnancy, skin problems, and mental health issues, so for these please speak to a GP.</p>";
-	strHtml += "<p>Who can I help today?</p>"
+	strHtml += "<p class='Infermedica_Description'>If this is an emergency, please call 999. I need to let you know. I\'m still learning about symptoms in pregnancy, skin problems, and mental health issues, so for these please speak to a GP.</p>";
+	strHtml += "<p class='Infermedica_Description'>Who can I help today?</p>"
 	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1)'>Someone else</button>";
 	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Myself</button>";
 	strHtml += "</div>";
@@ -264,7 +267,7 @@ function submitCustomer(){
 	arrCustomers.push(customer);
 	strAllCustomers = JSON.stringify(arrCustomers);
 	console.log(strAllCustomers);
-	if( customer_Age < 18){
+	if( customer_Age < 10){
 		objState.moveTo(1);
 	} else{
 		objState.moveTo(2);
@@ -281,7 +284,7 @@ function drawSomeoneReg4(){
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>What is " + cur_reg_firstName + "\'s date of birth?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += strBirth;
-	strHtml += "<button class='Infermedica_button_right' onclick='submitCustomer();'>Submit</button>";
+	strHtml += "<button class='Infermedica_button_full' style='margin-top: 50px;' onclick='submitCustomer();'>Submit</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -295,11 +298,11 @@ function drawSomeoneChildren(){
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Thank you! I will also need to ask for a phone number to contact in case of emergency.</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Thank you! I will also need to ask for a phone number to contact in case of emergency.</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<p>With kids I take extra care.</p>";
-	strHtml += "<label class='Infermedica_label'>+" + getPhoneCode4Country(strCountryCode) + "</label>";
-	strHtml += "<input class='Infermedica_input' type='tel'>";
+	strHtml += "<p class='Infermedica_Description'>With kids I take extra care.</p>";
+	strHtml += "<label>+" + getPhoneCode4Country(strCountryCode) + "</label>";
+	strHtml += "<input class='Infermedica_input' type='number'>";
 	strHtml += "<button class='Infermedica_button_right' onclick='submitPhoneNumber();'>Send</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
@@ -307,29 +310,27 @@ function drawSomeoneChildren(){
 function drawDiagnosisReady(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
-	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>I\'m now going to ask you a few questions about your symptoms. Whilst some of my questions might seem unrelated, I was trained by doctors to consider many possible causes for the symptoms you entered. When I\'m done, I\'ll provide you with a report based on the information you with a report based on the information you\'ve given me.</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>I\'m now going to ask you a few questions about your symptoms. Whilst some of my questions might seem unrelated, I was trained by doctors to consider many possible causes for the symptoms you entered. When I\'m done, I\'ll provide you with a report based on the information you with a report based on the information you\'ve given me.</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<p>Before we start, I have to remind you that for regulatory reasons, at the moment, I can\'t help with skin problems, pregnancy or children\'s health. Please also note this isn\'t a personal diagnosis and is for information purposes only.</p>";
-	strHtml += "<p>If you or someone else are experiencing concerning symptoms, including any of the following. I would advise you contact emergency services immediately: (1) Servere, heavy or crushing chest pain, which may move to jaw, neck, arm, or back, or be associated with sweating, shortness of breath or nausea. (2) Signs of a stroke, which may include facial weakness, inablility to hold both arms up, or difficulty speaking. (3) Severe breathing problems.</p>";
-	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1);'>Continue</button>";
+	strHtml += "<p class='Infermedica_Description'>Before we start, I have to remind you that for regulatory reasons, at the moment, I can\'t help with skin problems, pregnancy or children\'s health. Please also note this isn\'t a personal diagnosis and is for information purposes only.</p>";
+	strHtml += "<p class='Infermedica_Description'>If you or someone else are experiencing concerning symptoms, including any of the following. I would advise you contact emergency services immediately: (1) Servere, heavy or crushing chest pain, which may move to jaw, neck, arm, or back, or be associated with sweating, shortness of breath or nausea. (2) Signs of a stroke, which may include facial weakness, inablility to hold both arms up, or difficulty speaking. (3) Severe breathing problems.</p>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1);'>Continue</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
 function drawSymptomConfirm(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
-	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Firstly, I\'d like to check that I understand you correctly. Is your main symptom: "+strMainSymptom+"?</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Firstly, I\'d like to check that I understand you correctly. Is your main symptom: "+strMainSymptom+"?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1);'>Yes</button>";
-	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(2);'>No</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1);'>Yes</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2);'>No</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -344,13 +345,12 @@ function symptomInputAgain(){
 function drawSymptomInputAgain(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
-	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>I\'m sorry, I don\'t think I correctly understood your symptom.</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>I\'m sorry, I don\'t think I correctly understood your symptom.</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<p>Please try again, descriting the symptom in simple language.</p>";
+	strHtml += "<p class='Infermedica_Description'>Please try again, descriting the symptom in simple language.</p>";
 	strHtml += "<input class='Infermedica_input' type='text' id='mainAnswer'><button class='Infermedica_button_right' onclick='symptomInputAgain()'>Send</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
@@ -358,14 +358,13 @@ function drawSymptomInputAgain(){
 function drawSymptomConfirmAgain(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
-	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Once again, I\'d like to check that I understand you correctly. Is  your symptomo: "+strMainSymptom+"?</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Once again, I\'d like to check that I understand you correctly. Is  your symptomo: "+strMainSymptom+"?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1);'>Yes</button>";
-	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(2);'>No</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1);'>Yes</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2);'>No</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -393,3 +392,18 @@ function drawContents(){
 	}
 }
 drawContents();
+
+var text = ["I have a headache..", "I want to talk to a doctor..","Start typing.."];
+
+var counter = 0;
+var elem = document.getElementsByClassName("main-input")[0];
+if(elem)
+   inst = setInterval(change, 3000);
+
+function change() {
+  elem.setAttribute('placeholder', text[counter]);
+  counter++;
+  if (counter >= text.length) {
+    counter = 0;
+  }
+}
