@@ -341,3 +341,7 @@
 .Infermedica_header .Infermedica_back:hover, .Infermedica_header .Infermedica_exit:hover, .Infermedica_header .Infermedica_back:active, .Infermedica_header .Infermedica_exit:active, .Infermedica_header .Infermedica_back:focus, .Infermedica_header .Infermedica_exit:focus {
 	color: #d2205a;
 }
+p.Infermedica_Input_Error{
+    display: none;
+    color: red;
+}

@@ -6,18 +6,47 @@ function gotoFirstWelcome(){
 }
 
 function welcomBtnClicked(){
-	if(getCookie("User_First_Name") == ""){
+	strFirsrQuestion = $(".Infermedica_answer input#mainAnswer").val();
+	if( !strFirsrQuestion){
+		return;
+	}
+	strUserMail = getCookie("UserEmail");
+	if(strUserMail == ""){
 		objState.moveTo(0);
 	} else{
-		strFirstName = getCookie("User_First_Name");
 		objState.moveTo(1);
 	}
 }
+function keyPress(event){
+	if( event.keyCode == 13){
+		welcomBtnClicked();
+	}
+}
 function drawFirstWelcome(){
+	var text = ["I have a headache..", "I want to talk to a doctor..","Start typing.."];
+
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hello, how can I help you?</p></div>";
-	strHtml += "<div class='Infermedica_answer'><input class='main-input Infermedica_input' type='text' id='mainAnswer'><button class='Infermedica_button_right' onclick='welcomBtnClicked()'>Ask Medics2You</button></div>";
+	strHtml += "<div class='Infermedica_answer'><input class='main-input Infermedica_input' type='text' id='mainAnswer' placeholder='" + text[0] + "' onkeyup='keyPress(event)'><button class='Infermedica_button_right' onclick='welcomBtnClicked()'>Ask Medics2You</button></div>";
 	$(".Infermedica_root").html(strHtml);
+
+	var counter = 1;
+	var elem = document.getElementsByClassName("main-input")[0];
+	if(elem)
+	   inst = setInterval(change, 3000);
+
+	function change() {
+	  elem.setAttribute('placeholder', text[counter]);
+	  counter++;
+	  if (counter >= text.length) {
+	    counter = 0;
+	  }
+	}
+	if( strUserMail != ""){
+		$.get( "api_userManager.php?case=2&userMail=" + strUserMail, function( data ) {
+			objUserInfo = JSON.parse(data);
+		});
+	}
 }
 
 function drawLoginBefore(){
@@ -34,7 +63,18 @@ function drawLoginBefore(){
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
-
+function verifyLogin(){
+	var strEmail = $("input.Infermedica_input[name='email']").val();
+	var strPass = $("input.Infermedica_input[name='password']").val();
+	$.get("api_userManager.php?case=1&userMail=" + strEmail + "&userPass=" + strPass, function( data ) {
+		var retVal = JSON.parse(data);
+		if( retVal.ErrorMsg == "Success."){
+			objState.moveTo(1);
+		} else{
+			$("p.Infermedica_Input_Error.login").show();
+		}
+	});
+}
 function drawLogin(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
@@ -47,19 +87,29 @@ function drawLogin(){
 	strHtml += "<label class='Infermedica_label'>Email</label><br/>";
 	strHtml += "<input class='Infermedica_input' type='email' name='email'><br/>";
 	strHtml += "<label class='Infermedica_label'>Password</label><br/>";
-	strHtml += "<input class='Infermedica_input' type='password' name='password'><br/>"
-	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1)'>Log in</button>";
+	strHtml += "<input class='Infermedica_input' type='password' name='password'><br/>";
+	strHtml += "<p class='Infermedica_Input_Error login'>That email / password combination is not valid.</p>";
+	strHtml += "<button class='Infermedica_button_full' onclick='verifyLogin()'>Log in</button>";
 	strHtml += "<div class='Infermedica_forgot' onclick='objState.moveTo(2)'>Forgotten your passowrd?</div>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
-function signIn1Next() {
+function verifySign1Infos() {
+	var retVal = true;
+	$("p.Infermedica_Input_Error").hide();
 	strFirstName = $(".Infermedica_root input[name='firstName']").val();
-	if( strFirstName == ""){
-		alert("Please insert First Name.");
+	if( !strFirstName){
+		$("p.Infermedica_Input_Error.firstName").show();
+		retVal = false;
+	}
+	strLastName = $(".Infermedica_root input[name='lastName']").val();
+	if( !strLastName){
+		$("p.Infermedica_Input_Error.lastName").show();
+		retVal = false;
+	}
+	if( retVal == false){
 		return;
 	}
-	setCookie("User_First_Name", strFirstName, 1);
 	objState.moveTo(1);
 }
 function drawSign1(){
@@ -73,22 +123,28 @@ function drawSign1(){
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<label class='Infermedica_label'>First name</label><br/>";
 	strHtml += "<input class='Infermedica_input' type='text' name='firstName'><br/>";
+	strHtml += "<p class='Infermedica_Input_Error firstName'>This field is required</p>"
 	strHtml += "<label class='Infermedica_label'>Last name</label><br/>";
 	strHtml += "<input class='Infermedica_input' type='text' name='lastName'><br/>"
-	strHtml += "<button class='Infermedica_button_full' onclick='signIn1Next()'>Next</button>";
+	strHtml += "<p class='Infermedica_Input_Error lastName'>This field is required</p>"
+	strHtml += "<button class='Infermedica_button_full' onclick='verifySign1Infos()'>Next</button>";
 	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'>I already have an account</div>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
 function verifySign2Infos(){
-	if( verifyBirth() == false)
-		return false;
-	strYear = cur_reg_year;
-	strMonth = cur_reg_month;
-	strDay = cur_reg_day;
+	$("p.Infermedica_Input_Error").hide();
+	if( verifyBirth() == false){
+		$("p.Infermedica_Input_Error.birth").show();
+		// return false;
+	}
+	strBirthday = cur_reg_year + "-" + cur_reg_month + "-" + cur_reg_day;
+
 	strGender = $(".Infermedica_Option.activated").html();
-	strCountryCode = $("select[name='countries'] option:selected").val();
-	if( strGender == "" || strCountryCode == ""){
+	if( !strGender){
+		$("p.Infermedica_Input_Error.gender").show();
+	}
+	if( verifyBirth() == false || !strGender){
 		return false;
 	}
 	return true;
@@ -100,19 +156,63 @@ function drawSign2(){
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, " + strFirstName + ". good to meet you.</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, " + objUserInfo.firstName + ". good to meet you.</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<p class='Infermedica_Description'>We\'re going to be asking you a few more questions in order to provide you with the most accurate medical advice.</p>";
 	strHtml += "<label class='Infermedica_label'>Country</label><br/>";
 	strHtml += countrySelect + "<br/>";
 	strHtml += "<label class='Infermedica_label'>Date of birth</label><br/>";
 	strHtml += strBirth + "<br/>";
+	strHtml += "<p class='Infermedica_Input_Error birth'>This field is required</p>"
 	strHtml += "<label class='Infermedica_label'>Gender</label><br/>";
 	strHtml += makeOptionButtons(["Male", "Female"]) + "<br/>";
+	strHtml += "<p class='Infermedica_Input_Error gender'>This field is required</p>"
 	strHtml += "<button class='Infermedica_button_full' onclick='if(verifySign2Infos())objState.moveTo(1)'>Next</button>";
 	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'>I already have an account</div>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
+}
+function validateEmail(_email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(_email).toLowerCase());
+}
+function verifySign3Infos(){
+	var retVal = true;
+	$("p.Infermedica_Input_Error").hide();
+	var strEmail = $("input.Infermedica_input[name='email']").val();
+	if( !strEmail){
+		$("p.Infermedica_Input_Error.email_required").show();
+		retVal = false;
+	} else if(!validateEmail(strEmail)){
+		$("p.Infermedica_Input_Error.email_valid").show();
+		retVal = false;
+	}
+	var strPass = $("input.Infermedica_input[name='password']").val();
+	if( !strPass){
+		$("p.Infermedica_Input_Error.password_required").show();
+		retVal = false;
+	} else if( (!(/[a-z]/.test(strPass))) || (!(/[A-Z]/.test(strPass))) || (strPass.length < 8)){
+		$("p.Infermedica_Input_Error.password_verify").show();
+		retVal = false;
+	}
+	if( $("input[name='chkAgree']").prop("checked") != true){
+		$("p.Infermedica_Input_Error.terms").show();
+		retVal = false;
+	}
+	if( !retVal){
+		return;
+	}
+	objUserInfo = {firstName: strFirstName, lastName: strLastName, country: strCountryCode, birth: strBirthday, gender: strGender, email: strEmail, password: strPass};
+	$.get("api_userManager.php?case=0&userInfo=" + JSON.stringify(objUserInfo), function( data ) {
+		if( data == "YES"){
+			setCookie("UserEmail", objUserInfo.email, 1);
+			objState.moveTo(1);
+		} else{
+			alert("Couldn\'t create user.")
+			return;
+		}
+	});
+
 }
 function drawSign3(){
 	var strHtml = "";
@@ -125,13 +225,18 @@ function drawSign3(){
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<label class='Infermedica_label'>Email</label><br/>";
 	strHtml += "<input class='Infermedica_input' type='email' name='email'><br/>";
+	strHtml += "<p class='Infermedica_Input_Error email_required'>This field is required</p>";
+	strHtml += "<p class='Infermedica_Input_Error email_valid'>This doesn\'t look like a valid email address to us</p>";
 	strHtml += "<label class='Infermedica_label'>Password</label><br/>";
-	strHtml += "<input class='Infermedica_input' type='password' name='password'><br/>"
+	strHtml += "<input class='Infermedica_input' type='password' name='password'><br/>";
+	strHtml += "<p class='Infermedica_Input_Error password_required'>This field is required</p>";
+	strHtml += "<p class='Infermedica_Input_Error password_verify'>This password does not match the criteria</p>";
 	strHtml += "<p class='Infermedica_Description' style='margin-top: 16px; font-size: 12px;'>Use at least 8 charactrers including a number an uppercase and a lowercase letter.</p>";
-	strHtml += "<input class='' type='checkbox' name='chkAgree'> I agree to the terms & confditions<br/>";
+	strHtml += "<input class='' type='checkbox' name='chkAgree'> I agree to the terms & conditions<br/>";
+	strHtml += "<p class='Infermedica_Input_Error terms'>You must accept the terms and conditons to use our services.</p>";
 	strHtml += "<p class='Infermedica_Description' style='margin-top: 16px;'>By proceeding you acknowledge that you have read and agree to the <span style='color: #d2205a;'>Terms & Conditions</span></p>";
 	strHtml += "<p class='Infermedica_Description'>Use of the Medics2You service is subject to the <span style='color: #d2205a;'>Privacy Policy</span></p>";
-	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1)'>Create account</button>";
+	strHtml += "<button class='Infermedica_button_full' onclick='verifySign3Infos()'>Create account</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -158,7 +263,7 @@ function drawWhoCanI(){
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, "+strFirstName+". Who can I help today?</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, "+objUserInfo.firstName+". Who can I help today?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1)'>Someone else</button>";
 	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Myself</button>";
@@ -175,7 +280,6 @@ function setCustomer(customer=null){
 	customer_Gender = customer.gender;
 }
 function drawWhoCanSomeOne(){
-// strAllCustomers
 	var arrCustomers = [];
 	if( strAllCustomers != ""){
 		arrCustomers = JSON.parse(strAllCustomers);
@@ -199,16 +303,12 @@ function drawWhoCanSomeOne(){
 	$(".Infermedica_root").html(strHtml);
 
 }
-function alertMsg(value){
-	if( !value){
-		alert("Please enter the value.");
+function verifyValue( _value){
+	$("p.Infermedica_Input_Error").hide();
+	if( !_value){
+		$("p.Infermedica_Input_Error.firstName").show();
 		return false;
 	}
-	return true;
-}
-function verifyValue( _value){
-	if( !_value)
-		return false;
 	return true;
 }
 function drawSomeoneReg1(){
@@ -220,8 +320,10 @@ function drawSomeoneReg1(){
 	strHtml += "<div style='clear:both;'></div>"
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>What is their first name?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<p class='Infermedica_Input_Error firstName'>There was a problem sending this message. Please try again.</p>";
 	strHtml += "<input class='Infermedica_input' type='text' name='firstName' placeholder='Type something...'>";
 	strHtml += "<button class='Infermedica_button_right' onclick='cur_reg_firstName=$(\"input\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
+
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -234,8 +336,9 @@ function drawSomeoneReg2(){
 	strHtml += "<div style='clear:both;'></div>"
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>What is " + cur_reg_firstName + "\'s surname?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<p class='Infermedica_Input_Error firstName'>There was a problem sending this message. Please try again.</p>";
 	strHtml += "<input class='Infermedica_input' type='text' name='firstName' placeholder='Type something...'>";
-	strHtml += "<button class='Infermedica_button_right' onclick='cur_reg_lastName=$(\"input\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
+	strHtml += "<button class='Infermedica_button_right' onclick='cur_reg_lastName=$(\"input\").val();if(verifyValue(cur_reg_lastName))objState.moveTo(1);'>Send</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -254,9 +357,12 @@ function drawSomeoneReg3(){
 	$(".Infermedica_root").html(strHtml);
 }
 function submitCustomer(){
+	$("p.Infermedica_Input_Error").hide();
 	if(verifyBirth() == false){
+		$("p.Infermedica_Input_Error.date").show();
 		return;
 	}
+	
 	customer_Age = (new Date()).getFullYear() - (cur_reg_year * 1);
 	customer_Gender = cur_reg_gender;
 	var customer = {birthYear: cur_reg_year, gender: customer_Gender};
@@ -285,6 +391,7 @@ function drawSomeoneReg4(){
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += strBirth;
 	strHtml += "<button class='Infermedica_button_full' style='margin-top: 50px;' onclick='submitCustomer();'>Submit</button>";
+	strHtml += "<p class='Infermedica_Input_Error date'>Please fill every field</p>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -392,18 +499,3 @@ function drawContents(){
 	}
 }
 drawContents();
-
-var text = ["I have a headache..", "I want to talk to a doctor..","Start typing.."];
-
-var counter = 0;
-var elem = document.getElementsByClassName("main-input")[0];
-if(elem)
-   inst = setInterval(change, 3000);
-
-function change() {
-  elem.setAttribute('placeholder', text[counter]);
-  counter++;
-  if (counter >= text.length) {
-    counter = 0;
-  }
-}

@@ -22,7 +22,7 @@ for( var i = nCurYear; i >= nCurYear - 100; i--){
 strBirth += "</select>";
 function verifyBirth(){
 	if( $("#dayddl option:selected").val() == "" || $("#monthddl option:selected").val() == "" || $("#yearddl option:selected").val() == ""){
-		alert("Please select birthday.");
+		// alert("Please select birthday.");
 		return false;
 	}
 	cur_reg_day = $("#dayddl option:selected").val();

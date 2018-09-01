@@ -3,17 +3,24 @@
 </div>
 
 <script src="jquery.min.js"></script>
+<script src="cookie.js"></script>
+<script src="phoneCode.js"></script>
 <script type="text/javascript">
+	var strUserMail = getCookie("UserEmail");
+
+	var objUserInfo = null;
+	var strFirsrQuestion = "";
+
 	var strFirstName = "";
 	var strLastName = "";
 	var strCountryCode = "";
+	var strBirthday = "";
 	var strGender = "";
-	var strYear = "";
-	var strMonth = "";
-	var strDay = "";
+
 	var customer_Age = "";
 	var customer_Gender = "";
 	var strAllCustomers = "";
+	
 	var cur_reg_firstName = "";
 	var cur_reg_lastName = "";
 	var cur_reg_gender = "";
@@ -23,8 +30,6 @@
 
 	var strMainSymptom = "";
 </script>
-<script src="cookie.js"></script>
-<script src="phoneCode.js"></script>
 <script src="country_select.js?<?= time();?>"></script>
 <script src="controls.js?<?= time();?>"></script>
 <script src="birth_select.js?<?= time();?>"></script>
