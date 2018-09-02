@@ -142,7 +142,7 @@ function verifySign2Infos(){
 		// return false;
 	}
 	strBirthday = cur_reg_year + "-" + cur_reg_month + "-" + cur_reg_day;
-
+	strCountryCode = $("select.Infermedica_select[name='countries']").val();
 	strGender = $(".Infermedica_Option.activated").html();
 	if( !strGender){
 		$("p.Infermedica_Input_Error.gender_required").show();
@@ -159,7 +159,7 @@ function drawSign2(){
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, " + objUserInfo.firstName + ". good to meet you.</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, " + strFirstName + ". good to meet you.</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<p class='Infermedica_Description'>We\'re going to be asking you a few more questions in order to provide you with the most accurate medical advice.</p>";
 	strHtml += "<label class='Infermedica_label'>Country</label><br/>";
@@ -246,7 +246,6 @@ function drawSign3(){
 function getCustomer_NextStep(){
 	var strEmail = objUserInfo.email;
 	$.get("api_userManager.php?case=3&userMail=" + strEmail, function( data ) {
-		console.log(data);
 		arrCustomers = JSON.parse(data);
 		objState.moveTo(1);
 	});
@@ -277,7 +276,7 @@ function drawWhoCanI(){
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, "+objUserInfo.firstName+". Who can I help today?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<button class='Infermedica_button' onclick='getCustomer_NextStep()'>Someone else</button>";
-	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Myself</button>";
+	strHtml += "<button class='Infermedica_button' onclick='setCustomer(objUserInfo.gender, objUserInfo.birth);objState.moveTo(2)'>Myself</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -379,7 +378,6 @@ function submitCustomer(){
 	} else{
 		var customer = { firstName: cur_reg_firstName, lastName: cur_reg_lastName, gender: cur_reg_gender, birth: cur_reg_year + "-" + cur_reg_month + "-" + cur_reg_day};
 		$.get( "api_userManager.php?case=4&userMail=" + objUserInfo.email + "&customerInfo=" + JSON.stringify(customer), function( data ) {
-			console.log(data);
 			if( data == "YES"){
 				objState.moveTo(2);
 			}
