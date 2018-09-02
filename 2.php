@@ -36,3 +36,4 @@
 <script src="status.js?<?= time();?>"></script>
 <script src="drawContents.js?<?= time();?>"></script>
 <link rel="stylesheet" href="main.css?<?=time();?>" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

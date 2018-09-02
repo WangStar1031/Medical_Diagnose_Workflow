@@ -59,7 +59,7 @@ function drawLoginBefore(){
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Befor I can help, I need to take some details from you.</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<button class='Infermedica_button_full' onclick='objState.moveTo(1)'>Get Started</button>";
-	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'>I already have an account.</div>";
+	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'><i class='fa fa-user-circle-o'></i> I already have an account.</div>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -71,7 +71,7 @@ function verifyLogin(){
 		if( retVal.ErrorMsg == "Success."){
 			objState.moveTo(1);
 		} else{
-			$("p.Infermedica_Input_Error.login").show();
+			$("p.Infermedica_Input_Error.login_required").show();
 		}
 	});
 }
@@ -88,9 +88,9 @@ function drawLogin(){
 	strHtml += "<input class='Infermedica_input' type='email' name='email'><br/>";
 	strHtml += "<label class='Infermedica_label'>Password</label><br/>";
 	strHtml += "<input class='Infermedica_input' type='password' name='password'><br/>";
-	strHtml += "<p class='Infermedica_Input_Error login'>That email / password combination is not valid.</p>";
+	strHtml += "<p class='Infermedica_Input_Error login_required'>That email / password combination is not valid.</p>";
 	strHtml += "<button class='Infermedica_button_full' onclick='verifyLogin()'>Log in</button>";
-	strHtml += "<div class='Infermedica_forgot' onclick='objState.moveTo(2)'>Forgotten your passowrd?</div>";
+	strHtml += "<div class='Infermedica_forgot' onclick='objState.moveTo(2)'><i class='fa fa-user-circle-o'></i> Forgotten your passowrd?</div>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -99,12 +99,12 @@ function verifySign1Infos() {
 	$("p.Infermedica_Input_Error").hide();
 	strFirstName = $(".Infermedica_root input[name='firstName']").val();
 	if( !strFirstName){
-		$("p.Infermedica_Input_Error.firstName").show();
+		$("p.Infermedica_Input_Error.firstName_required").show();
 		retVal = false;
 	}
 	strLastName = $(".Infermedica_root input[name='lastName']").val();
 	if( !strLastName){
-		$("p.Infermedica_Input_Error.lastName").show();
+		$("p.Infermedica_Input_Error.lastName_required").show();
 		retVal = false;
 	}
 	if( retVal == false){
@@ -123,26 +123,26 @@ function drawSign1(){
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<label class='Infermedica_label'>First name</label><br/>";
 	strHtml += "<input class='Infermedica_input' type='text' name='firstName'><br/>";
-	strHtml += "<p class='Infermedica_Input_Error firstName'>This field is required</p>"
+	strHtml += "<p class='Infermedica_Input_Error firstName_required'>This field is required</p>"
 	strHtml += "<label class='Infermedica_label'>Last name</label><br/>";
 	strHtml += "<input class='Infermedica_input' type='text' name='lastName'><br/>"
-	strHtml += "<p class='Infermedica_Input_Error lastName'>This field is required</p>"
+	strHtml += "<p class='Infermedica_Input_Error lastName_required'>This field is required</p>"
 	strHtml += "<button class='Infermedica_button_full' onclick='verifySign1Infos()'>Next</button>";
-	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'>I already have an account</div>";
+	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'><i class='fa fa-user-circle-o'></i> I already have an account</div>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
 function verifySign2Infos(){
 	$("p.Infermedica_Input_Error").hide();
 	if( verifyBirth() == false){
-		$("p.Infermedica_Input_Error.birth").show();
+		$("p.Infermedica_Input_Error.birth_required").show();
 		// return false;
 	}
 	strBirthday = cur_reg_year + "-" + cur_reg_month + "-" + cur_reg_day;
 
 	strGender = $(".Infermedica_Option.activated").html();
 	if( !strGender){
-		$("p.Infermedica_Input_Error.gender").show();
+		$("p.Infermedica_Input_Error.gender_required").show();
 	}
 	if( verifyBirth() == false || !strGender){
 		return false;
@@ -163,12 +163,12 @@ function drawSign2(){
 	strHtml += countrySelect + "<br/>";
 	strHtml += "<label class='Infermedica_label'>Date of birth</label><br/>";
 	strHtml += strBirth + "<br/>";
-	strHtml += "<p class='Infermedica_Input_Error birth'>This field is required</p>"
+	strHtml += "<p class='Infermedica_Input_Error birth_required'>This field is required</p>"
 	strHtml += "<label class='Infermedica_label'>Gender</label><br/>";
 	strHtml += makeOptionButtons(["Male", "Female"]) + "<br/>";
-	strHtml += "<p class='Infermedica_Input_Error gender'>This field is required</p>"
+	strHtml += "<p class='Infermedica_Input_Error gender_required'>This field is required</p>"
 	strHtml += "<button class='Infermedica_button_full' onclick='if(verifySign2Infos())objState.moveTo(1)'>Next</button>";
-	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'>I already have an account</div>";
+	strHtml += "<div class='Infermedica_already' onclick='objState.moveTo(2)'><i class='fa fa-user-circle-o'></i> I already have an account</div>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -196,7 +196,7 @@ function verifySign3Infos(){
 		retVal = false;
 	}
 	if( $("input[name='chkAgree']").prop("checked") != true){
-		$("p.Infermedica_Input_Error.terms").show();
+		$("p.Infermedica_Input_Error.terms_required").show();
 		retVal = false;
 	}
 	if( !retVal){
@@ -233,7 +233,7 @@ function drawSign3(){
 	strHtml += "<p class='Infermedica_Input_Error password_verify'>This password does not match the criteria</p>";
 	strHtml += "<p class='Infermedica_Description' style='margin-top: 16px; font-size: 12px;'>Use at least 8 charactrers including a number an uppercase and a lowercase letter.</p>";
 	strHtml += "<input class='' type='checkbox' name='chkAgree'> I agree to the terms & conditions<br/>";
-	strHtml += "<p class='Infermedica_Input_Error terms'>You must accept the terms and conditons to use our services.</p>";
+	strHtml += "<p class='Infermedica_Input_Error terms_required'>You must accept the terms and conditons to use our services.</p>";
 	strHtml += "<p class='Infermedica_Description' style='margin-top: 16px;'>By proceeding you acknowledge that you have read and agree to the <span style='color: #d2205a;'>Terms & Conditions</span></p>";
 	strHtml += "<p class='Infermedica_Description'>Use of the Medics2You service is subject to the <span style='color: #d2205a;'>Privacy Policy</span></p>";
 	strHtml += "<button class='Infermedica_button_full' onclick='verifySign3Infos()'>Create account</button>";
@@ -306,7 +306,7 @@ function drawWhoCanSomeOne(){
 function verifyValue( _value){
 	$("p.Infermedica_Input_Error").hide();
 	if( !_value){
-		$("p.Infermedica_Input_Error.firstName").show();
+		$("p.Infermedica_Input_Error.Name_required").show();
 		return false;
 	}
 	return true;
@@ -320,7 +320,7 @@ function drawSomeoneReg1(){
 	strHtml += "<div style='clear:both;'></div>"
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>What is their first name?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<p class='Infermedica_Input_Error firstName'>There was a problem sending this message. Please try again.</p>";
+	strHtml += "<p class='Infermedica_Input_Error Name_required'>There was a problem sending this message. Please try again.</p>";
 	strHtml += "<input class='Infermedica_input' type='text' name='firstName' placeholder='Type something...'>";
 	strHtml += "<button class='Infermedica_button_right' onclick='cur_reg_firstName=$(\"input\").val();if(verifyValue(cur_reg_firstName))objState.moveTo(1);'>Send</button>";
 
@@ -336,7 +336,7 @@ function drawSomeoneReg2(){
 	strHtml += "<div style='clear:both;'></div>"
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>What is " + cur_reg_firstName + "\'s surname?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<p class='Infermedica_Input_Error firstName'>There was a problem sending this message. Please try again.</p>";
+	strHtml += "<p class='Infermedica_Input_Error Name_required'>There was a problem sending this message. Please try again.</p>";
 	strHtml += "<input class='Infermedica_input' type='text' name='firstName' placeholder='Type something...'>";
 	strHtml += "<button class='Infermedica_button_right' onclick='cur_reg_lastName=$(\"input\").val();if(verifyValue(cur_reg_lastName))objState.moveTo(1);'>Send</button>";
 	strHtml += "</div>";
@@ -359,7 +359,7 @@ function drawSomeoneReg3(){
 function submitCustomer(){
 	$("p.Infermedica_Input_Error").hide();
 	if(verifyBirth() == false){
-		$("p.Infermedica_Input_Error.date").show();
+		$("p.Infermedica_Input_Error.date_required").show();
 		return;
 	}
 	
@@ -391,7 +391,7 @@ function drawSomeoneReg4(){
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += strBirth;
 	strHtml += "<button class='Infermedica_button_full' style='margin-top: 50px;' onclick='submitCustomer();'>Submit</button>";
-	strHtml += "<p class='Infermedica_Input_Error date'>Please fill every field</p>";
+	strHtml += "<p class='Infermedica_Input_Error date_required'>Please fill every field</p>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
