@@ -1,6 +1,4 @@
 
-let objState = new stateManager();
-
 function gotoFirstWelcome(){
 	objState.moveTo(-1);
 }
@@ -23,6 +21,7 @@ function keyPress(event){
 	}
 }
 function drawFirstWelcome(){
+	Initialize();
 	var text = ["I have a headache..", "I want to talk to a doctor..","Start typing.."];
 
 	var strHtml = "";
@@ -262,7 +261,7 @@ function drawWelcomeBack(){
 	strHtml += "<p class='Infermedica_Description'>If this is an emergency, please call 999. I need to let you know. I\'m still learning about symptoms in pregnancy, skin problems, and mental health issues, so for these please speak to a GP.</p>";
 	strHtml += "<p class='Infermedica_Description'>Who can I help today?</p>"
 	strHtml += "<button class='Infermedica_button' onclick='getCustomer_NextStep()'>Someone else</button>";
-	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Myself</button>";
+	strHtml += "<button class='Infermedica_button' onclick='setCustomer(objUserInfo.gender, objUserInfo.birth);objState.moveTo(2)'>Myself</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
@@ -433,6 +432,9 @@ function drawDiagnosisReady(){
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
+function drawSymptomConfirm_1(){
+	getParse();
+}
 function drawSymptomConfirm(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
@@ -446,12 +448,65 @@ function drawSymptomConfirm(){
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
-function symptomInputAgain(){
-	var strSymptom = $(".Infermedica_root input").val();
-	if( !strSymptom){
-		alert("Please enter your symptom.");
-		return;
+function removeSymptom(_id){
+	arrInitialSymptoms = arrInitialSymptoms.filter(function(_this){
+		return _this.id != _id;
+	});
+	drawSelectedSymptoms();
+}
+function drawSelectedSymptoms(){
+	var strHtmlBuf = "";
+	for( var i = 0; i < arrInitialSymptoms.length; i++){
+		var curSymptom = arrInitialSymptoms[i];
+		strHtmlBuf += "<div class='Infermedica_iniSymptoms' id='iniSymptom_" + curSymptom.id + "'>" + curSymptom.common_name + "<span onclick='removeSymptom(\"" + curSymptom.id + "\")'>X"+ "</span></div>";
 	}
+	if( arrInitialSymptoms.length){
+		$(".Infermedica_button.symptom_Confirm").css("visibility","visible");
+	} else{
+		$(".Infermedica_button.symptom_Confirm").css("visibility","hidden");
+	}
+	$(".Infermedica_iniSymptoms_Group").html( strHtmlBuf);
+}
+function drawCurSymptoms(_arrCurSymptoms){
+	var strHtml = "";
+	strHtml += "<ul class='Infermedica_list curSymptoms'>";
+	for( var i = 0; i < _arrCurSymptoms.length; i++){
+		var symptom = _arrCurSymptoms[i];
+		strHtml += "<li id='" + symptom.id + "'>" + symptom.common_name + "</li>";
+	}
+	strHtml += "</ul>";
+	$("input.Infermedica_input#mainAnswer").after(strHtml);
+	$("ul.Infermedica_list.curSymptoms li").click(function(){
+		var selSymptomId = $(this).attr("id");
+		var selSymptomTxt = $(this).text();
+		arrInitialSymptoms.push(_arrCurSymptoms.filter(function(_this){
+			return _this.id == selSymptomId;
+		})[0]);
+		drawSelectedSymptoms();
+		console.log(selSymptomId + ":" + selSymptomTxt);
+		$(".Infermedica_root input").val("");
+		$("ul.Infermedica_list.curSymptoms").remove();
+	});
+}
+function symptomChanged(event){
+	$("ul.Infermedica_list.curSymptoms").remove();
+	var strSymptom = $(".Infermedica_root input").val();
+	if( strSymptom.length > 3){
+		var arrCurSymptoms = arrAllSymptoms.filter(function(_this){
+			var aa = _this.common_name.toLowerCase();
+			if(aa.indexOf(strSymptom.toLowerCase()) == -1) return false;
+			for( var i = 0; i < arrInitialSymptoms.length; i++){
+				if( _this.id == arrInitialSymptoms[i].id) return false;
+			}
+			return true;
+		});
+		drawCurSymptoms(arrCurSymptoms);
+	}
+}
+function drawSymptomInputAgain_1(){
+	getAllSymptoms4InputAgain();
+}
+function symptomConfirmClicked(){
 	objState.moveTo(1);
 }
 function drawSymptomInputAgain(){
@@ -462,23 +517,165 @@ function drawSymptomInputAgain(){
 	strHtml += "<div style='clear:both;'></div>"
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>I\'m sorry, I don\'t think I correctly understood your symptom.</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<p class='Infermedica_Description'>Please try again, descriting the symptom in simple language.</p>";
-	strHtml += "<input class='Infermedica_input' type='text' id='mainAnswer'><button class='Infermedica_button_right' onclick='symptomInputAgain()'>Send</button>";
+	strHtml += "<p class='Infermedica_Description'>Please try again, checking the symptom in simple words.</p>";
+	strHtml += "<input class='Infermedica_input' type='text' id='mainAnswer' onkeyup='symptomChanged(event)'>";
+	strHtml += "<div class='Infermedica_iniSymptoms_Group'>";
+	for( var i = 0; i < arrInitialSymptoms.length; i++){
+		var curSymptom = arrInitialSymptoms[i];
+		strHtml += "<div class='Infermedica_iniSymptoms' id='iniSymptom_" + curSymptom.id + "'>" + curSymptom.common_name + "</div>";
+	}
+	strHtml += "</div>";
+	strHtml += "<button class='Infermedica_button symptom_Confirm' onclick='symptomConfirmClicked()' style='visibility: hidden;'>Confirm</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
-function drawSymptomConfirmAgain(){
+function confirmDemographics(){
+	for( var i = 0; i < arrDemographics.length; i++){
+		var demographic = arrDemographics[i];
+		if( $("input.Infermedica_answer_chk[name='" + demographic.id + "']").prop("checked")){
+			arrDemographics[i].state = "present";
+		} else{
+			arrDemographics[i].state = "absent";
+		}
+	}
+	objState.moveTo(1);
+}
+function drawSelectDemographics(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
 	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
 	strHtml += "</div>";
 	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Once again, I\'d like to check that I understand you correctly. Is  your symptomo: "+strMainSymptom+"?</p></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Please check all the statements below that apply to you</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1);'>Yes</button>";
-	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2);'>No</button>";
+	var isConfirmState = false;
+	for( var i = 0; i < arrDemographics.length; i++){
+		var demographic = arrDemographics[i];
+		var chkVal = "";
+		if( demographic.state == "present"){
+			isConfirmState = true;
+			chkVal = "checked";
+		}
+		strHtml += "<input class='Infermedica_answer_chk' type='checkbox' name='" + demographic.id + "' " + chkVal + ">" + demographic.description + "<br>";
+	}
+	strHtml += "<button class='Infermedica_button demogra_Confirm' style='visibility:hidden' onclick='confirmDemographics()'>Next</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
+	$(".Infermedica_answer_chk").change(function(){
+		if( $(".Infermedica_answer_chk:checked").length){
+			$(".Infermedica_button.demogra_Confirm").css("visibility", "visible");
+		} else{
+			$(".Infermedica_button.demogra_Confirm").css("visibility", "hidden");
+		}
+	});
+	if( isConfirmState){
+		$(".Infermedica_button.demogra_Confirm").css("visibility", "visible");
+	}
+}
+function confirmGeographics(){
+	for( var i = 0; i < arrGeographics.length; i++){
+		var geographic = arrGeographics[i];
+		if( $("input.Infermedica_answer_chk[name='" + geographic.id + "']").prop("checked")){
+			arrGeographics[i].state = "present";
+		} else{
+			arrGeographics[i].state = "absent";
+		}
+	}
+	objState.moveTo(1);
+}
+function drawSelectGeoGraphical(){
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>"
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Please select the region you live in and places you\'ve traveled to in the last 12 months.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	for( var i = 0; i < arrGeographics.length; i++){
+		var geographic = arrGeographics[i];
+		strHtml += "<input class='Infermedica_answer_chk' type='checkbox' name='" + geographic.id + "' " + geographic.state + ">" + geographic.description + "<br>";
+	}
+	strHtml += "<button class='Infermedica_button demogra_Confirm' style='visibility:hidden' onclick='confirmGeographics()'>Next</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
+	$(".Infermedica_answer_chk").change(function(){
+		if( $(".Infermedica_answer_chk:checked").length){
+			$(".Infermedica_button.demogra_Confirm").css("visibility", "visible");
+		} else{
+			$(".Infermedica_button.demogra_Confirm").css("visibility", "hidden");
+		}
+	});
+}
+function drawSearch_Suggest_1(){
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>"
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Would you like information about any of the following?</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	for( var i = 0; i < parsedSymptoms.length; i++){
+		var symptom = parsedSymptoms[i];
+		var isCheckedVal = "";
+		if( arrInitialSymptoms.filter(function(_this){
+			return _this.id == symptom.id;
+		}).length){
+			isCheckedVal = "checked";
+		}
+		if( symptom.common_name){
+			strHtml += "<input class='Infermedica_answer_chk' type='checkbox' name='" + symptom.id + "' " + isCheckedVal + ">" + symptom.common_name + "<br>";
+		} else{
+			strHtml += "<input class='Infermedica_answer_chk' type='checkbox' name='" + symptom.id + "' " + isCheckedVal + ">" + symptom.label + "<br>";
+		}
+	}
+	strHtml += "<button class='Infermedica_button symptom_Confirm' style='visibility:hidden' onclick='confirmGeographics()'>Next</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
+	for( var i = 0; i < arrInitialSymptoms.length; i++){
+		var symptom = arrInitialSymptoms[i];
+
+	}
+	$(".Infermedica_answer_chk").change(function(){
+		if( $(".Infermedica_answer_chk:checked").length){
+			$(".Infermedica_button.symptom_Confirm").css("visibility", "visible");
+		} else{
+			$(".Infermedica_button.symptom_Confirm").css("visibility", "hidden");
+		}
+	});
+
+}
+function drawSearch_Suggest(){
+	if( strMainSymptom == ""){
+		objState.moveTo(1);
+	} else{
+		get_Search_Suggest();
+	}
+}
+function drawDiagnosisFirst(){
+	if( arrInitialSymptoms.length){
+		// objState.moveTo
+	}
+// arrInitialSymptoms
+// arrDemographics
+// arrGeographics
+}
+function drawDiagnosisLoop(){
+
+}
+function drawDiagnosisFinish(){
+
+}
+function drawDiagnosisResult(){
+
+}
+function drawDiagnosisFeedBack(){
+
+}
+function drawDiagnosisFault(){
+
 }
 function drawContents(){
 	switch(objState.getState()){
@@ -497,9 +694,17 @@ function drawContents(){
 		case g_states.STAT_SOMEONE_REG_4: drawSomeoneReg4(); break;
 		case g_states.STAT_SOMEONE_CHILDREN: drawSomeoneChildren(); break;
 		case g_states.STAT_DIAGNOSIS_READY: drawDiagnosisReady(); break;
-		case g_states.STAT_SYMPTOM_CONFIRM: drawSymptomConfirm(); break;
-		case g_states.STAT_SYMPTOM_INPUT_AGAIN: drawSymptomInputAgain(); break;
-		case g_states.STAT_SYMPTOM_CONFIRM_AGAIN: drawSymptomConfirmAgain(); break;
+		case g_states.STAT_SYMPTOM_CONFIRM: drawSymptomConfirm_1(); break;
+		case g_states.STAT_SYMPTOM_INPUT_AGAIN: drawSymptomInputAgain_1(); break;
+		case g_states.STAT_SELECT_DEMOGRAPHICS: drawSelectDemographics(); break;
+		case g_states.STAT_SELECT_GEOGRAPHICAL: drawSelectGeoGraphical(); break;
+		case g_states.STAT_SEARCH_SUGGEST: drawSearch_Suggest(); break;
+		case g_states.STAT_DIAGNOSIS_FIRST: drawDiagnosisFirst(); break;
+		case g_states.STAT_DIAGNOSIS_LOOP: drawDiagnosisLoop(); break;
+		case g_states.STAT_DIAGNOSIS_FINISH: drawDiagnosisFinish(); break;
+		case g_states.STAT_DIAGNOSIS_RESULT: drawDiagnosisResult(); break;
+		case g_states.STAT_DIAGNOSIS_FEEDBACK: drawDiagnosisFeedBack(); break;
+		case g_states.STAT_DIAGNOSIS_FAULT: drawDiagnosisFault(); break;
 
 	}
 }
