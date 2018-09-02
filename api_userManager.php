@@ -57,6 +57,20 @@ switch ($case) {
 		$arrRetVal = GetCustomerInfo($userMail);
 		echo json_encode($arrRetVal);
 		break;
+	case 4: // Add Customer Info
+		$userMail = "";
+		if(isset($_POST['userMail'])) $userMail = $_POST['userMail'];
+		if(isset($_GET['userMail'])) $userMail = $_GET['userMail'];
+		$customerInfo = "";
+		if(isset($_POST['customerInfo'])) $customerInfo = $_POST['customerInfo'];
+		if(isset($_GET['customerInfo'])) $customerInfo = $_GET['customerInfo'];
+		$_customerInfo = json_decode($customerInfo);
+		if( AddCustomerInfo( $userMail, $_customerInfo)){
+			echo "YES";
+		} else{
+			echo "NO";
+		}
+		break;
 	default:
 		break;
 }

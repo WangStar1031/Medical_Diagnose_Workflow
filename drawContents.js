@@ -6,8 +6,8 @@ function gotoFirstWelcome(){
 }
 
 function welcomBtnClicked(){
-	strFirsrQuestion = $(".Infermedica_answer input#mainAnswer").val();
-	if( !strFirsrQuestion){
+	strFirstQuestion = $(".Infermedica_answer input#mainAnswer").val();
+	if( !strFirstQuestion){
 		return;
 	}
 	strUserMail = getCookie("UserEmail");
@@ -69,6 +69,9 @@ function verifyLogin(){
 	$.get("api_userManager.php?case=1&userMail=" + strEmail + "&userPass=" + strPass, function( data ) {
 		var retVal = JSON.parse(data);
 		if( retVal.ErrorMsg == "Success."){
+			objUserInfo = retVal.UserInfo;
+			strUserMail = objUserInfo.email;
+			setCookie("UserEmail", strUserMail, 1);
 			objState.moveTo(1);
 		} else{
 			$("p.Infermedica_Input_Error.login_required").show();
@@ -240,6 +243,14 @@ function drawSign3(){
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
+function getCustomer_NextStep(){
+	var strEmail = objUserInfo.email;
+	$.get("api_userManager.php?case=3&userMail=" + strEmail, function( data ) {
+		console.log(data);
+		arrCustomers = JSON.parse(data);
+		objState.moveTo(1);
+	});
+}
 function drawWelcomeBack(){
 	var strHtml = "";
 	strHtml += "<div class='Infermedica_header'>";
@@ -251,7 +262,7 @@ function drawWelcomeBack(){
 	strHtml += "<div class='Infermedica_answer'>";
 	strHtml += "<p class='Infermedica_Description'>If this is an emergency, please call 999. I need to let you know. I\'m still learning about symptoms in pregnancy, skin problems, and mental health issues, so for these please speak to a GP.</p>";
 	strHtml += "<p class='Infermedica_Description'>Who can I help today?</p>"
-	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1)'>Someone else</button>";
+	strHtml += "<button class='Infermedica_button' onclick='getCustomer_NextStep()'>Someone else</button>";
 	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Myself</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
@@ -265,7 +276,7 @@ function drawWhoCanI(){
 	strHtml += "<div style='clear:both;'></div>"
 	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Hi, "+objUserInfo.firstName+". Who can I help today?</p></div>";
 	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1)'>Someone else</button>";
+	strHtml += "<button class='Infermedica_button' onclick='getCustomer_NextStep()'>Someone else</button>";
 	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Myself</button>";
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
@@ -280,28 +291,23 @@ function setCustomer(customer=null){
 	customer_Gender = customer.gender;
 }
 function drawWhoCanSomeOne(){
-	var arrCustomers = [];
-	if( strAllCustomers != ""){
-		arrCustomers = JSON.parse(strAllCustomers);
-	}
-	var strHtml = "";
-	strHtml += "<div class='Infermedica_header'>";
-	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
-	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
-	strHtml += "</div>";
-	strHtml += "<div style='clear:both;'></div>"
-	strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Who needs my help today?</p></div>";
-	strHtml += "<div class='Infermedica_answer'>";
-	strHtml += "<button class='Infermedica_button' onclick='setCustomer();objState.moveTo(1)'>I don\'t know I don\'t know</button>";
-	for( var i = 0; i < arrCustomers.length; i++){
-		var customer = arrCustomers[i];
-		strHtml += "<button class='Infermedica_button' onclick='setCustomer(" + customer + ");objState.moveTo(1)'>";
-		strHtml += customer.firstName + " " + customer.lastName + "</button>";
-	}
-	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Someone else</button>";
-	strHtml += "</div>";
-	$(".Infermedica_root").html(strHtml);
-
+		var strHtml = "";
+		strHtml += "<div class='Infermedica_header'>";
+		strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+		strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+		strHtml += "</div>";
+		strHtml += "<div style='clear:both;'></div>"
+		strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Who needs my help today?</p></div>";
+		strHtml += "<div class='Infermedica_answer'>";
+		strHtml += "<button class='Infermedica_button' onclick='setCustomer();objState.moveTo(1)'>I don\'t know I don\'t know</button>";
+		for( var i = 0; i < arrCustomers.length; i++){
+			var customer = arrCustomers[i];
+			strHtml += "<button class='Infermedica_button' onclick='setCustomer(" + customer + ");objState.moveTo(1)'>";
+			strHtml += customer.firstName + " " + customer.lastName + "</button>";
+		}
+		strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Someone else</button>";
+		strHtml += "</div>";
+		$(".Infermedica_root").html(strHtml);
 }
 function verifyValue( _value){
 	$("p.Infermedica_Input_Error").hide();
@@ -364,19 +370,17 @@ function submitCustomer(){
 	}
 	
 	customer_Age = (new Date()).getFullYear() - (cur_reg_year * 1);
-	customer_Gender = cur_reg_gender;
-	var customer = {birthYear: cur_reg_year, gender: customer_Gender};
-	var arrCustomers = [];
-	if( strAllCustomers != ""){
-		arrCustomers = JSON.parse(strAllCustomers);
-	}
-	arrCustomers.push(customer);
-	strAllCustomers = JSON.stringify(arrCustomers);
-	console.log(strAllCustomers);
+
 	if( customer_Age < 10){
 		objState.moveTo(1);
 	} else{
-		objState.moveTo(2);
+		var customer = { firstName: cur_reg_firstName, lastName: cur_reg_lastName, gender: cur_reg_gender, birth: cur_reg_year + "-" + cur_reg_month + "-" + cur_reg_day};
+		$.get( "api_userManager.php?case=4&userMail=" + objUserInfo.email + "&customerInfo=" + JSON.stringify(customer), function( data ) {
+			console.log(data);
+			if( data == "YES"){
+				objState.moveTo(2);
+			}
+		});
 	}
 
 }

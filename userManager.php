@@ -1,6 +1,6 @@
 <?php
 if( !file_exists("users.json")){
-	file_put_contents("users.json", "");
+	file_put_contents("users.json", "[]");
 }
 $users = @file_get_contents("users.json");
 $arrUsers = [];
@@ -57,36 +57,31 @@ function GetUserInfo($_email){
 	}
 	return null;
 }
-// print_r(GetUserInfo($arrUsers[0]->email));
 if( !file_exists("customers.json")){
-	file_put_contents("customers.json", "");
+	file_put_contents("customers.json", "[]");
 }
 $customers = @file_get_contents("customers.json");
 $arrCustomers = [];
-if( !$customers){
+if( $customers){
 	$arrCustomers = json_decode($customers);
 }
 function AddCustomerInfo($_email, $_customerInfo){
-	$user = GetUserInfo($_email);
-	if( !$user){
-		return false;
-	}
-	$userId = $user->Id;
-	$_customerInfo->userId = $userId;
-
+	global $arrCustomers;
+	$_customerInfo->userEmail = $_email;
 	$firstName = $_customerInfo->firstName;
 	$lastName = $_customerInfo->lastName;
 	$gender = $_customerInfo->gender;
 	$birth = $_customerInfo->birth;
 
+	$arrCustomers[] = $_customerInfo;
+	file_put_contents("customers.json", json_encode($arrCustomers));
+	return true;
 }
 function GetCustomerInfo($_email){
 	global $arrCustomers;
-	$user = GetUserInfo($_email);
-	$userId = $user->Id;
 	$arrRetVal = [];
 	foreach ($arrCustomers as $value) {
-		if( $value->userId == $userId){
+		if( $value->userEmail == $_email){
 			$arrRetVal[] = $value;
 		}
 	}

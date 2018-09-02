@@ -9,7 +9,8 @@
 	var strUserMail = getCookie("UserEmail");
 
 	var objUserInfo = null;
-	var strFirsrQuestion = "";
+	var strFirstQuestion = "";
+	var arrCustomers = [];
 
 	var strFirstName = "";
 	var strLastName = "";
