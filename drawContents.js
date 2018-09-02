@@ -281,14 +281,17 @@ function drawWhoCanI(){
 	strHtml += "</div>";
 	$(".Infermedica_root").html(strHtml);
 }
-function setCustomer(customer=null){
-	if( customer == null){
-		customer_Age = "";
+function setCustomer(cus_Gender, cus_Birth){
+	if( cus_Gender == 0){
 		customer_Gender = "";
-		return;
+	} else{
+		customer_Gender = cus_Gender;
 	}
-	customer_Age = (new Date()).getFullYear() - customer.birthYear;
-	customer_Gender = customer.gender;
+	if( cus_Birth == 0){
+		customer_Age = "";
+	} else{
+		customer_Age = (new Date()).getFullYear() - cus_Birth.split("-")[0];
+	}
 }
 function drawWhoCanSomeOne(){
 		var strHtml = "";
@@ -299,10 +302,10 @@ function drawWhoCanSomeOne(){
 		strHtml += "<div style='clear:both;'></div>"
 		strHtml += "<div class='Infermedica_question'><p class='Infermedica_question_header'>Who needs my help today?</p></div>";
 		strHtml += "<div class='Infermedica_answer'>";
-		strHtml += "<button class='Infermedica_button' onclick='setCustomer();objState.moveTo(1)'>I don\'t know I don\'t know</button>";
+		strHtml += "<button class='Infermedica_button' onclick='setCustomer(0,0);objState.moveTo(1)'>I don\'t know I don\'t know</button>";
 		for( var i = 0; i < arrCustomers.length; i++){
 			var customer = arrCustomers[i];
-			strHtml += "<button class='Infermedica_button' onclick='setCustomer(" + customer + ");objState.moveTo(1)'>";
+			strHtml += "<button class='Infermedica_button' onclick='setCustomer(\"" + customer.gender + "\", \"" + customer.birth + "\");objState.moveTo(1)'>";
 			strHtml += customer.firstName + " " + customer.lastName + "</button>";
 		}
 		strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Someone else</button>";
