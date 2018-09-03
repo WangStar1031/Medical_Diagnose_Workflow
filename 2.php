@@ -30,6 +30,7 @@
 	var cur_reg_day = "";
 
 	let objState = new stateManager();
+	var objDiagAnal = null;
 
 	var strMainSymptom = "";
 	var strMainId = "";
@@ -41,7 +42,11 @@
 	var arrInitialSymptoms = [];
 	var arrDemographics = [];
 	var arrGeographics = [];
+
+	var arrStartSymptoms = [];
+
 	 function Initialize(){
+	 	objDiagAnal = null;
 		strMainSymptom = "";
 		strMainId = "";
 		isSearch = false;
@@ -50,6 +55,7 @@
 		arrAllSymptoms = [];
 		arrEvidences = [];
 		arrInitialSymptoms = [];
+		arrStartSymptoms = [];
 		arrDemographics = [
 			{id : "p_28", state : "absent", description: "Do you smoke or were you smoking for at least ten years in your life?"},
 			{id : "p_10", state : "absent", description: "Do you have a high level of cholesterol?"},
@@ -74,6 +80,7 @@
 <script src="controls.js?<?= time();?>"></script>
 <script src="birth_select.js?<?= time();?>"></script>
 <script src="medi_functions.js?<?= time();?>"></script>
+<script src="diag_anal.js?<?= time();?>"></script>
 <script src="drawContents.js?<?= time();?>"></script>
 <link rel="stylesheet" href="main.css?<?=time();?>" type="text/css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
