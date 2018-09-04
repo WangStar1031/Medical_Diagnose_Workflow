@@ -662,7 +662,8 @@ function drawSearch_Suggest(){
 	}
 }
 function drawDiagnosisLoop(){
-	if( objDiagAnal == null){
+	if( objDiagnosis == null){
+		debugger;
 		var prevState = g_states.STAT_SEARCH_SUGGEST;
 		if( parsedSymptoms.length){
 			arrStartSymptoms.push({"id": strMainId, "choice_id":"present", "initial":true});
@@ -682,7 +683,8 @@ function drawDiagnosisLoop(){
 				arrStartSymptoms.push({"id":symptom.id, "choice_id":"present", "initial":true});
 			}
 		}
-		objDiagAnal = new diagAnal(prevState, arrStartSymptoms);	
+		// objDiagAnal = new diagAnal(prevState, arrStartSymptoms);
+		objDiagnosis = new Diagnose(prevState, arrStartSymptoms);
 	}
 }
 function drawDiagnosisResult(){

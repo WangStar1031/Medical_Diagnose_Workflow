@@ -1,5 +1,4 @@
 // objDiagAnal
-
 class diagAnal{
 	constructor( _prevState, _initialSymptoms){
 		this.stepCount = 0;
@@ -39,6 +38,7 @@ class diagAnal{
 		return retVal;
 	}
 	run(){
+		debugger;
 		switch( this.stateList[this.stateList.length - 1]){
 			case "diagnosis":
 				this.stepCount++;
@@ -99,6 +99,20 @@ class diagAnal{
 	}
 	drawSymptomList(){
 		debugger;
+		var arrChildSymptoms = [];
+		for( var i = 0; i < this.curSymptomResponseList.length; i++){
+			var children = this.curSymptomResponseList[i].children;
+			for( var j = 0; j < children.length; j++){
+				arrChildSymptoms.push(children[j].id);
+			}
+		}
+		if( arrChildSymptoms.length == 0){
+
+		} else if( arrChildSymptoms.length == 1){
+
+		} else{
+
+		}
 		if( this.curSymptomResponseList.length == 1){
 			var _response = this.curSymptomResponseList[0];
 			if( _response.children.length == 0){

@@ -45,8 +45,10 @@
 
 	var arrStartSymptoms = [];
 
-	 function Initialize(){
+	var objDiagnosis = null;
+	function Initialize(){
 	 	objDiagAnal = null;
+	 	objDiagnosis = null;
 		strMainSymptom = "";
 		strMainId = "";
 		isSearch = false;
@@ -80,6 +82,7 @@
 <script src="controls.js?<?= time();?>"></script>
 <script src="birth_select.js?<?= time();?>"></script>
 <script src="medi_functions.js?<?= time();?>"></script>
+<script src="diagnosis.js?<?= time();?>"></script>
 <script src="diag_anal.js?<?= time();?>"></script>
 <script src="drawContents.js?<?= time();?>"></script>
 <link rel="stylesheet" href="main.css?<?=time();?>" type="text/css">
