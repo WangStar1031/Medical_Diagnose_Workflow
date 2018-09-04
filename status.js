@@ -23,8 +23,8 @@ var g_states = Object.freeze({
 	"STAT_SEARCH_SUGGEST"			: 21,
 	// "STAT_DIAGNOSIS_FIRST"			: 22,
 	"STAT_DIAGNOSIS_LOOP"			: 23,
-	// "STAT_DIAGNOSIS_FINISH"			: 24,
-	"STAT_DIAGNOSIS_RESULT"			: 25,
+	"STAT_DIAGNOSIS_FINISH"			: 24,
+	"STAT_DIAGNOSIS_SUMMARY"		: 25,
 	"STAT_DIAGNOSIS_FEEDBACK"		: 26,
 	"STAT_DIAGNOSIS_FAULT"			: 27,
 
@@ -33,6 +33,7 @@ var g_states = Object.freeze({
 class stateManager{
 	constructor(){
 		this.state = g_states.STAT_FIRST_WELCOME;
+		// this.state = g_states.STAT_DIAGNOSIS_FEEDBACK;
 	}
 	getState(){
 		return this.state;
@@ -195,25 +196,33 @@ class stateManager{
 				switch(_where){
 					case -2: this.state = g_states.STAT_SELECT_GEOGRAPHICAL; break;
 					case 0: this.state = g_states.STAT_SEARCH_SUGGEST; break;
-					case 1: this.state = g_states.STAT_DIAGNOSIS_RESULT; break;
+					case 1: this.state = g_states.STAT_DIAGNOSIS_FINISH; break;
 					case 2: this.state = g_states.STAT_DIAGNOSIS_FAULT; break;
 				}
 				break;
-			case g_states.STAT_DIAGNOSIS_RESULT:
+			case g_states.STAT_DIAGNOSIS_FINISH:
 				switch(_where){
+					case 1: this.state = g_states.STAT_DIAGNOSIS_SUMMARY; break;
+					case 2: this.state = g_states.STAT_DIAGNOSIS_FEEDBACK; break;
+				}
+				break;
+			case g_states.STAT_DIAGNOSIS_SUMMARY:
+				switch(_where){
+					case 0: this.state = g_states.STAT_DIAGNOSIS_FINISH; break;
 					case 1: this.state = g_states.STAT_DIAGNOSIS_FEEDBACK; break;
 					// case 2: this.state = g_states.STAT_FIRST_WELCOME; break;
 				}
 				break;
 			case g_states.STAT_DIAGNOSIS_FEEDBACK:
-				// switch(_where){
-				// 	case 1: this.state = g_states.STAT_FIRST_WELCOME; break;
-				// }
+				switch(_where){
+					case 0: this.state = g_states.STAT_DIAGNOSIS_FINISH; break;
+					case 1: this.state = g_states.STAT_FIRST_WELCOME; break;
+				}
 				break;
 			case g_states.STAT_DIAGNOSIS_FAULT:
-				// switch(_where){
-				// 	case 1: this.state = g_states.STAT_FIRST_WELCOME; break;
-				// }
+				switch(_where){
+					case 1: this.state = g_states.STAT_FIRST_WELCOME; break;
+				}
 				break;
 		}
 		drawContents();

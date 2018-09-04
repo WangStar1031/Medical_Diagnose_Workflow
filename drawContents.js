@@ -665,36 +665,103 @@ function drawDiagnosisLoop(){
 	if( objDiagnosis == null){
 		debugger;
 		var prevState = g_states.STAT_SEARCH_SUGGEST;
-		if( parsedSymptoms.length){
-			arrStartSymptoms.push({"id": strMainId, "choice_id":"present", "initial":true});
-			for( var i = 0; i < parsedSymptoms.length; i++){
-				var symptom = parsedSymptoms[i];
-				var checked = $("input.Infermedica_answer_chk[name='" + symptom.id + "']").prop("checked");
-				if( checked){
-					arrStartSymptoms.push({"id":symptom.id, "choice_id":"present"});
-				} else{
-					arrStartSymptoms.push({"id":symptom.id, "choice_id":"absent"});
-				}
-			}
-		} else{
+		if( !parsedSymptoms.length){
 			prevState = g_states.STAT_SELECT_GEOGRAPHICAL;
-			for( var i = 0; i < arrInitialSymptoms.length; i++){
-				var symptom = arrInitialSymptoms[i];
-				arrStartSymptoms.push({"id":symptom.id, "choice_id":"present", "initial":true});
+		}
+		if( strMainId != ""){
+			arrStartSymptoms.push({"id": strMainId, "choice_id":"present", "initial":true});
+		}
+		for( var i = 0; i < arrInitialSymptoms.length; i++){
+			var symptom = arrInitialSymptoms[i];
+			arrStartSymptoms.push({"id":symptom.id, "choice_id":"present", "initial":true});
+		}
+		for( var i = 0; i < parsedSymptoms.length; i++){
+			var symptom = parsedSymptoms[i];
+			var checked = $("input.Infermedica_answer_chk[name='" + symptom.id + "']").prop("checked");
+			if( checked){
+				arrStartSymptoms.push({"id":symptom.id, "choice_id":"present"});
+			} else{
+				arrStartSymptoms.push({"id":symptom.id, "choice_id":"absent"});
 			}
 		}
 		// objDiagAnal = new diagAnal(prevState, arrStartSymptoms);
 		objDiagnosis = new Diagnose(prevState, arrStartSymptoms);
 	}
 }
-function drawDiagnosisResult(){
-
+function drawDiagnosisFinish(){
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'></p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<button class='Infermedica_summary_button' onclick='objState.moveTo(1)'>";
+		strHtml += "<p class='Infermedica_summary_button_title'>Your Summary</p>";
+		strHtml += "<p class='Infermedica_summary_button_description'>View information about possible causes for your symptoms.</p>";
+	strHtml += "</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(2)'>Continue</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
+}
+function drawDiagnosisSummary(){
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objDiagnosis.goBack()'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Great, we\'re all done.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<button class='Infermedica_summary_button' onclick='objDiagnosis.drawSummary("+conditions+")'>";
+		strHtml += "<p class='Infermedica_summary_button_title'>Your Summary</p>";
+		strHtml += "<p class='Infermedica_summary_button_description'>View information about possible causes for your symptoms.</p>";
+	strHtml += "</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(1)'>Continue</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
 }
 function drawDiagnosisFeedBack(){
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objState.moveTo(0)'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Did you find this asseessment useful? Your feedback will help us improve your experience.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	//feedback area
+	strHtml += '<div id="feedback" start="5"></div>';
+        // strHtml += '<input class="feedback_output" type="hidden">';
+        // strHtml += '<ul class="feedback_bar">';
+        //     strHtml += '<li class="feedback_starrating" x-score="1"><span class="glyphicon glyphicon-star"></span></li>';
+        //     strHtml += '<li class="feedback_starrating" x-score="2"><span class="glyphicon glyphicon-star"></span></li>';
+        //     strHtml += '<li class="feedback_starrating" x-score="3"><span class="glyphicon glyphicon-star"></span></li>';
+        //     strHtml += '<li class="feedback_starrating" x-score="4"><span class="glyphicon glyphicon-star"></span></li>';
+        //     strHtml += '<li class="feedback_starrating" x-score="5"><span class="glyphicon glyphicon-star"></span></li>';
+        // strHtml += '</ul>';
 
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(-1)'>Continue</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
+	$('#feedback').jsRapStar();
 }
 function drawDiagnosisFault(){
-
+	var strHtml = "";
+	strHtml += "<div class='Infermedica_header'>";
+	strHtml += "<button class='Infermedica_back' onclick='objDiagnosis.goBack()'><b>⇦</b>   Back</button>";
+	strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
+	strHtml += "</div>";
+	strHtml += "<div style='clear:both;'></div>";
+	strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Did you find this asseessment useful? Your feedback will help us improve your experience.</p></div>";
+	strHtml += "<div class='Infermedica_answer'>";
+	strHtml += "<button class='Infermedica_summary_button' onclick='objDiagnosis.drawSummary("+conditions+")'>";
+		strHtml += "<p class='Infermedica_summary_button_title'>Your Summary</p>";
+		strHtml += "<p class='Infermedica_summary_button_description'>View information about possible causes for your symptoms.</p>";
+	strHtml += "</button>";
+	strHtml += "<button class='Infermedica_button' onclick='objState.moveTo(-1)'>Continue</button>";
+	strHtml += "</div>";
+	$(".Infermedica_root").html(strHtml);
 }
 function drawContents(){
 	switch(objState.getState()){
@@ -721,7 +788,7 @@ function drawContents(){
 		// case g_states.STAT_DIAGNOSIS_FIRST: drawDiagnosisFirst(); break;
 		case g_states.STAT_DIAGNOSIS_LOOP: drawDiagnosisLoop(); break;
 		case g_states.STAT_DIAGNOSIS_FINISH: drawDiagnosisFinish(); break;
-		case g_states.STAT_DIAGNOSIS_RESULT: drawDiagnosisResult(); break;
+		case g_states.STAT_DIAGNOSIS_SUMMARY: drawDiagnosisSummary(); break;
 		case g_states.STAT_DIAGNOSIS_FEEDBACK: drawDiagnosisFeedBack(); break;
 		case g_states.STAT_DIAGNOSIS_FAULT: drawDiagnosisFault(); break;
 

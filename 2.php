@@ -3,6 +3,9 @@
 </div>
 
 <script src="jquery.min.js"></script>
+<script src="jsRapStar.js"></script>
+<link rel="stylesheet" href="jsRapStar.css" type="text/css">
+
 <script src="cookie.js"></script>
 <script src="phoneCode.js"></script>
 <script src="status.js?<?= time();?>"></script>
