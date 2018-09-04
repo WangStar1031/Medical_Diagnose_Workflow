@@ -22,6 +22,7 @@
 			var aw = start * sw;
 			this.StarF = $('<div>').addClass('rapStarFront').css({color:this.opt.colorFront,'font-size':this.opt.starHeight + 'px'}).html(starH).width(aw).appendTo(this);
 			this.Input = $('<input type="text" hidden>').appendTo(this);
+			this.Input.val("3");
 			if(this.opt.enabled)
 				$(this).bind({
 					mousemove:function(e){

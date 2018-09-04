@@ -26,7 +26,8 @@ var g_states = Object.freeze({
 	"STAT_DIAGNOSIS_FINISH"			: 24,
 	"STAT_DIAGNOSIS_SUMMARY"		: 25,
 	"STAT_DIAGNOSIS_FEEDBACK"		: 26,
-	"STAT_DIAGNOSIS_FAULT"			: 27,
+	"STAT_DIAGNOSIS_FEEDBACK_THX"	: 27,
+	"STAT_DIAGNOSIS_FAULT"			: 28,
 
 });
 
@@ -216,6 +217,11 @@ class stateManager{
 			case g_states.STAT_DIAGNOSIS_FEEDBACK:
 				switch(_where){
 					case 0: this.state = g_states.STAT_DIAGNOSIS_FINISH; break;
+					case 1: this.state = g_states.STAT_DIAGNOSIS_FEEDBACK_THX; break;
+				}
+				break;
+			case g_states.STAT_DIAGNOSIS_FEEDBACK_THX:
+				switch(_where){
 					case 1: this.state = g_states.STAT_FIRST_WELCOME; break;
 				}
 				break;

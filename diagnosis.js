@@ -47,24 +47,6 @@ class Diagnose{
 		var evidence = this.makeEvidence(_arrSymptoms);
 		this.getDiagnosis( evidence);
 	}
-	drawSummary(conditions){
-		var strHtml = "";
-		strHtml += "<div class='Infermedica_header'>";
-		strHtml += "<button class='Infermedica_back' onclick='objDiagnosis.goBack()'><b>⇦</b>   Back</button>";
-		strHtml += "<button class='Infermedica_exit' onclick='objState.moveTo(-1)'>Exit  <b>X</b></button>";
-		strHtml += "</div>";
-		strHtml += "<div style='clear:both;'></div>";
-		strHtml += "<div class='Infermedica_question'><p class='Infermedica_diagnosis_question_header'>Great, we\'re all done.</p></div>";
-		strHtml += "<div class='Infermedica_answer'>";
-		// strHtml += "<p>Please remember, this service is only for general information purposes and isn\'t a personal or medical diagnosis. If your symptoms persist, change or worsen, or you are concerned seek further advice.</p>";
-		strHtml += "<button class='Infermedica_summary_button' onclick='objDiagnosis.drawSummary("+conditions+")'>";
-			strHtml += "<p class='Infermedica_summary_button_title'>Your Summary</p>";
-			strHtml += "<p class='Infermedica_summary_button_description'>View information about possible causes for your symptoms.</p>";
-		strHtml += "</button>";
-		strHtml += "<button class='Infermedica_button' onclick='objDiagnosis.giveFeedBack()'>Continue</button>";
-		strHtml += "</div>";
-		$(".Infermedica_root").html(strHtml);
-	}
 	showFinalResult(conditions){
 		this.finalConditions = conditions;
 		var strHtml = "";
@@ -243,7 +225,7 @@ class Diagnose{
 		$(".Infermedica_root").html(strHtml);
 	}
 	parseDiagnosisResult(_response){
-		debugger;
+		// debugger;
 		var conditions = _response.conditions;
 		if( conditions.length){
 			if( conditions[0].probability > 0.9){
