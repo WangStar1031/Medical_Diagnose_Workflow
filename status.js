@@ -39,6 +39,10 @@ class stateManager{
 	getState(){
 		return this.state;
 	}
+	goTo( _where){
+		this.state = _where;
+		drawContents();
+	}
 	moveTo( _where){
 		if( _where == -1){
 			this.state = g_states.STAT_FIRST_WELCOME;

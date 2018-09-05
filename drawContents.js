@@ -662,6 +662,10 @@ function drawSearch_Suggest(){
 	}
 }
 function drawDiagnosisLoop(){
+	if( objDiagnosis != null){
+		delete objDiagnosis;
+		objDiagnosis = null;
+	}
 	if( objDiagnosis == null){
 		var prevState = g_states.STAT_SEARCH_SUGGEST;
 		if( !parsedSymptoms.length){

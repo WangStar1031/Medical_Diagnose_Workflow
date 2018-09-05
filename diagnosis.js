@@ -66,7 +66,29 @@ class Diagnose{
 		objState.moveTo(2);
 	}
 	goBack(){
-
+		// debugger;
+		var curStep = this.arrAllSteps[this.arrAllSteps.length - 1];
+		if( curStep.step == 1 && curStep.symptomSteps.length == 0){
+			objState.goTo(this.prevState);
+			return;
+		}
+		if( curStep.symptomSteps.length == 0){
+			this.arrAllSteps.pop();
+			lastStep = this.arrAllSteps[this.arrAllSteps.length - 1];
+			if( lastStep.symptomSteps.length <= 1){
+				this.startDiagnose(this.arrAllSteps.pop().startSymptoms);
+			} else{
+				lastStep.symptomSteps.pop();
+				this.solveSymptoms(lastStep.symptomSteps.pop());
+			}
+		} else if( curStep.symptomSteps.length == 1){
+			var lastStep = this.arrAllSteps.pop();
+			this.startDiagnose(lastStep.startSymptoms);
+		} else{
+			this.arrAllSteps[this.arrAllSteps.length - 1].symptomSteps.pop();
+			var arrLastSymptoms = this.arrAllSteps[this.arrAllSteps.length - 1].symptomSteps.pop();
+			this.solveSymptoms(arrLastSymptoms);
+		}
 	}
 	confirmSymptoms(){
 		var arrChks = $("input.Infermedica_answer_chk");
