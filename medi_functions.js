@@ -22,8 +22,8 @@ function getParse(){
 	  "url": "https://api.infermedica.com/v2/parse",
 	  "method": "POST",
 	  "headers": {
-	    "App-Id": "939b290c",
-	    "App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+	    "App-Id": g_strAppId,
+	    "App-Key": g_strAppKey,
 	    "Content-Type": "application/json",
 	    "Cache-Control": "no-cache"
 	  },
@@ -43,8 +43,8 @@ function getAllSymptoms4InputAgain(){
 	  "url": "https://api.infermedica.com/v2/symptoms",
 	  "method": "GET",
 	  "headers": {
-	    "App-Id": "939b290c",
-	    "App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+	    "App-Id": g_strAppId,
+	    "App-Key": g_strAppKey,
 	    "Content-Type": "application/json",
 	    "Cache-Control": "no-cache"
 	  }
@@ -116,8 +116,8 @@ function get_Search_Suggest(){
 		"url": "https://api.infermedica.com/v2/search?phrase="+strMainSymptom+"&max_results=8",
 		"method": "GET",
 		"headers": {
-			"App-Id": "939b290c",
-			"App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+			"App-Id": g_strAppId,
+			"App-Key": g_strAppKey,
 			"Cache-Control": "no-cache"
 		}
 	}
@@ -131,8 +131,8 @@ function get_Search_Suggest(){
 		"url": "https://api.infermedica.com/v2/suggest",
 		"method": "POST",
 		"headers": {
-		"App-Id": "939b290c",
-		"App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+		"App-Id": g_strAppId,
+		"App-Key": g_strAppKey,
 		"Content-Type": "application/json",
 		"Cache-Control": "no-cache"
 		},
@@ -151,13 +151,13 @@ function getDiagnosis(_arrEvidence){
 		"url": "https://api.infermedica.com/v2/diagnosis",
 		"method": "POST",
 		"headers": {
-		"App-Id": "939b290c",
-		"App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+		"App-Id": g_strAppId,
+		"App-Key": g_strAppKey,
 		"Content-Type": "application/json",
 		"Cache-Control": "no-cache"
 		},
 		"processData": false,
-		"data": '{"sex": "' + customer_Gender.toLowerCase() + '", "age": "' + customer_Age + '","evidence": '+ JSON.stringify(_arrEvidence) + ', "extras":{"disable_groups":true}}'
+		"data": '{"sex": "' + customer_Gender.toLowerCase() + '", "age": "' + customer_Age + '","evidence": '+ JSON.stringify(_arrEvidence) + '}'
 	}
 
 	$.ajax(settings).done(function (response) {
@@ -174,8 +174,8 @@ function getSymtoms(_arrEvidence){
 			"url": "https://api.infermedica.com/v2/symptoms/" + symptom,
 			"method": "GET",
 			"headers": {
-			"App-Id": "939b290c",
-			"App-Key": "c79ff4280eb37d80c5ec3d0a3ae150ee",
+			"App-Id": g_strAppId,
+			"App-Key": g_strAppKey,
 			"Content-Type": "application/json",
 			"Cache-Control": "no-cache"
 			}

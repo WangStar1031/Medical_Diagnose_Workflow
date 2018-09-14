@@ -10,6 +10,9 @@
 <script src="phoneCode.js"></script>
 <script src="status.js?<?= time();?>"></script>
 <script type="text/javascript">
+	var g_strAppId = "c567267d";
+	var g_strAppKey = "f41f27947fa42d5f62b3a68b4fa35be7";
+
 	var strUserMail = getCookie("UserEmail");
 
 	var objUserInfo = null;
